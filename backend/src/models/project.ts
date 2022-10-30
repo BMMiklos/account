@@ -14,7 +14,6 @@ const ProjectModel = model("project", projectSchema);
 
 const projectProcessSchema = new Schema<any>({
   // _id: Types.ObjectId,
-  order: Number,
   title: { type: String, required: false },
   description: { type: String, required: false },
   project: { type: Schema.Types.ObjectId, ref: 'project' },
@@ -27,7 +26,6 @@ const ProjectProcessModel = model("process", projectProcessSchema);
 
 const projectEntrySchema =  new Schema<any>({
   // _id: Types.ObjectId,
-  order: Number,
   title: { type: String, required: false },
   description: { type: String, required: false },
   project: { type: Schema.Types.ObjectId, ref: 'project' },

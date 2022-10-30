@@ -21,7 +21,7 @@ import {
   ProjectUpdateInput,
 } from "./project.type";
 
-const createProject: GraphQLFieldConfig<any, any, any> = {
+const createProject = {
   type: ProjectType,
   args: {
     data: { type: GraphQLNonNull(ProjectCreateInput) },
@@ -38,7 +38,7 @@ const createProject: GraphQLFieldConfig<any, any, any> = {
   },
 };
 
-const updateProject: GraphQLFieldConfig<any, any, any> = {
+const updateProject = {
   type: ProjectType,
   args: {
     id: { type: GraphQLNonNull(GraphQLID) },
@@ -51,7 +51,7 @@ const updateProject: GraphQLFieldConfig<any, any, any> = {
   },
 };
 
-const deleteProject: GraphQLFieldConfig<any, any, any> = {
+const deleteProject = {
   type: GraphQLBoolean,
   args: {
     id: { type: GraphQLNonNull(GraphQLID) },
@@ -70,7 +70,7 @@ const deleteProject: GraphQLFieldConfig<any, any, any> = {
   },
 };
 
-const createProcess: GraphQLFieldConfig<any, any, any> = {
+const createProcess = {
   type: ProcessType,
   args: {
     project: { type: GraphQLNonNull(GraphQLID) },
@@ -86,7 +86,6 @@ const createProcess: GraphQLFieldConfig<any, any, any> = {
         title: data.title,
         description: data.description ? data.description : null,
         project: project,
-        order: data.order ? data.order : null,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
@@ -102,7 +101,7 @@ const createProcess: GraphQLFieldConfig<any, any, any> = {
   },
 };
 
-const updateProcess: GraphQLFieldConfig<any, any, any> = {
+const updateProcess = {
   type: ProcessType,
   args: {
     id: { type: GraphQLNonNull(GraphQLID) },
@@ -115,7 +114,7 @@ const updateProcess: GraphQLFieldConfig<any, any, any> = {
   },
 };
 
-const deleteProcess: GraphQLFieldConfig<any, any, any> = {
+const deleteProcess = {
   type: GraphQLBoolean,
   args: {
     id: { type: GraphQLNonNull(GraphQLID) },
@@ -139,7 +138,7 @@ const deleteProcess: GraphQLFieldConfig<any, any, any> = {
   },
 };
 
-const createEntry: GraphQLFieldConfig<any, any, any> = {
+const createEntry = {
   type: EntryType,
   args: {
     project: { type: GraphQLNonNull(GraphQLID) },
@@ -158,7 +157,6 @@ const createEntry: GraphQLFieldConfig<any, any, any> = {
         if (processById) {
           entry = await ProjectEntryModel.create({
             project: projectById._id,
-            order: data.order,
             title: data.title,
             description: data.description,
           });
@@ -175,7 +173,6 @@ const createEntry: GraphQLFieldConfig<any, any, any> = {
       } else {
         entry = await ProjectEntryModel.create({
           project: projectById._id,
-          order: data.order,
           title: data.title,
           description: data.description,
         });
