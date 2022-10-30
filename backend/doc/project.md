@@ -6,17 +6,25 @@ mutation createProject {
 }
 
 mutation createProcess {
-  createProcess(data: {project: "635e848e46b6c5d9c2ab2418", title: "DONE", description: "description"}) {
+  createProcess(data: {project: "635eb297a0d8d9e8090a81c6", title: "DONE", description: "description"}) {
     _id
     title
+    project {
+      _id
+      title
+      description
+      createdAt
+      updatedAt
+    }
   }
 }
 
 mutation createEntry {
-  createEntry(data: {project: "635e848e46b6c5d9c2ab2418", title: "hello new entry"}) {
+  createEntry(data: {project: "635eb297a0d8d9e8090a81c6",  process: "635eb309a0d8d9e8090a81e5", title: "hello new entry"}) {
     _id
     project {
       _id
+      
     }
   }
 }
@@ -45,9 +53,50 @@ mutation updateEntry {
 }
 
 mutation setEntryToProcess {
-  setEntryToProcess(entry: "635e899f667df0a6961f7759" process: "635ea500ea1277614e506c80")
+  setEntryToProcess(entry: "635eb403a0d8d9e8090a821d" process: "635eb309a0d8d9e8090a81e5")
 }
 
 mutation removeEntryFromProcess {
-  removeEntryFromProcess(entry: "635e899f667df0a6961f7759" process: "635ea500ea1277614e506c80")
+  removeEntryFromProcess(entry: "635eb403a0d8d9e8090a821d" process: "635eb308a0d8d9e8090a81e1")
+}
+
+mutation deleteProject {
+  deleteProject(id:"635e848e46b6c5d9c2ab2418")
+}
+
+query projectBySearch {
+  projectsBySearch(searchQuery: "ACC") {
+    _id
+    title
+    description
+    createdAt
+    updatedAt
+    processes {
+      _id
+      title
+      description
+      createdAt
+      updatedAt
+    }
+    entries {
+      _id
+      title
+      description
+    }
+  }
+}
+
+query processById {
+  processById(id: "635ea500ea1277614e506c80") {
+    _id
+    title
+    description
+    createdAt
+    updatedAt
+    entries {
+      _id
+      title
+      description
+    }
+  }
 }

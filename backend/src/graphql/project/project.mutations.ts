@@ -326,27 +326,36 @@ const setEntryToProcess = {
     try {
       let result = false;
 
-      await ProjectProcessModel.findOne({
-        _id: processId,
+      await ProjectModel.findOne({
         entries: entryId,
-      }).then(async (process) => {
-        if (process) {
-          result = false;
-        } else {
-          await ProjectEntryModel.findById(entryId).then(async (entry) => {
-            if (entry) {
-              let updateResult = await ProjectProcessModel.updateMany(
-                { _id: processId },
-                {
-                  $push: { entries: entryId },
-                }
-              );
-
-              result = updateResult.modifiedCount ? true : false;
+        processes: processId,
+      }).then(async (project) => {
+        if (project) {
+          await ProjectProcessModel.findOne({
+            _id: processId,
+            entries: entryId,
+          }).then(async (process) => {
+            if (process) {
+              result = false;
             } else {
-              throw `There is no entry with the given id ${entryId}`;
+              await ProjectEntryModel.findById(entryId).then(async (entry) => {
+                if (entry) {
+                  let updateResult = await ProjectProcessModel.updateMany(
+                    { _id: processId },
+                    {
+                      $push: { entries: entryId },
+                    }
+                  );
+
+                  result = updateResult.modifiedCount ? true : false;
+                } else {
+                  throw `There is no entry with the given id ${entryId}`;
+                }
+              });
             }
           });
+        } else {
+          throw `The given process and entity are not in the same project!`;
         }
       });
 
