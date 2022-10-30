@@ -88,8 +88,8 @@ EntryType = new GraphQLObjectType({
 const EntryCreateInput = new GraphQLInputObjectType({
   name: "EntryCreateInput",
   fields: {
-    project: { type: GraphQLNonNull(GraphQLString) },
-    process: { type: GraphQLString },
+    project: { type: GraphQLNonNull(GraphQLID) },
+    process: { type: GraphQLID },
     title: { type: GraphQLNonNull(GraphQLString) },
     description: { type: GraphQLString },
   },
