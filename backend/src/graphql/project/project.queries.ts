@@ -15,10 +15,14 @@ import { ProcessType, EntryType, ProjectType } from "./project.type";
 const projects: GraphQLFieldConfig<any, {}, any> = {
   type: new GraphQLList(ProjectType),
   resolve: async (_, {}) => {
-    let result = await ProjectModel.find({})
-      .populate({ path: "processes" })
-      .populate({ path: "entries" });
-    return result;
+    try {
+      let result = await ProjectModel.find({})
+        .populate({ path: "processes" })
+        .populate({ path: "entries" });
+      return result;
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 
@@ -30,15 +34,19 @@ const projectsBySearch = {
     },
   },
   resolve: async (_, { searchQuery }) => {
-    let result = await ProjectModel.find({
-      $or: [
-        { title: { $regex: searchQuery, $options: "i" } },
-        { description: { $regex: searchQuery, $options: "i" } },
-      ],
-    })
-      .populate({ path: "processes" })
-      .populate({ path: "entries" });
-    return result;
+    try {
+      let result = await ProjectModel.find({
+        $or: [
+          { title: { $regex: searchQuery, $options: "i" } },
+          { description: { $regex: searchQuery, $options: "i" } },
+        ],
+      })
+        .populate({ path: "processes" })
+        .populate({ path: "entries" });
+      return result;
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 
@@ -50,10 +58,14 @@ const projectById = {
     },
   },
   resolve: async (_, { id }) => {
-    let result = await ProjectModel.findById(id)
-      .populate({ path: "processes" })
-      .populate({ path: "entries" });
-    return result;
+    try {
+      let result = await ProjectModel.findById(id)
+        .populate({ path: "processes" })
+        .populate({ path: "entries" });
+      return result;
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 
@@ -65,10 +77,14 @@ const processById = {
     },
   },
   resolve: async (_, { id }) => {
-    let result = await ProjectProcessModel.findById(id)
-      .populate({ path: "project" })
-      .populate({ path: "entries" });
-    return result;
+    try {
+      let result = await ProjectProcessModel.findById(id)
+        .populate({ path: "project" })
+        .populate({ path: "entries" });
+      return result;
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 
@@ -80,10 +96,14 @@ const processesByProject = {
     },
   },
   resolve: async (_, { project }) => {
-    let projectById = await ProjectModel.findById(project)
-      .populate({ path: "processes" })
-      .populate({ path: "entries" });
-    return projectById.processes;
+    try {
+      let projectById = await ProjectModel.findById(project)
+        .populate({ path: "processes" })
+        .populate({ path: "entries" });
+      return projectById.processes;
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 
@@ -95,10 +115,14 @@ const entryById = {
     },
   },
   resolve: async (_, { id }) => {
-    let entryById = await ProjectEntryModel.findById(id).populate({
-      path: "project",
-    });
-    return entryById;
+    try {
+      let entryById = await ProjectEntryModel.findById(id).populate({
+        path: "project",
+      });
+      return entryById;
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 
@@ -110,10 +134,16 @@ const entriesByProcess = {
     },
   },
   resolve: async (_, { process }) => {
-    let entriesByProcess = await ProjectProcessModel.findById(process).populate({
-      path: "entries",
-    });
-    return entriesByProcess.entries;
+    try {
+      let entriesByProcess = await ProjectProcessModel.findById(
+        process
+      ).populate({
+        path: "entries",
+      });
+      return entriesByProcess.entries;
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 
