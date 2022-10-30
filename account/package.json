@@ -1,0 +1,35 @@
+{
+  "name": "account-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./build/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "build-watch": "npx tsc --watch",
+    "serve": "npx nodemon",
+    "serve-watch": "npx nodemon --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BMMiklos/account-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BMMiklos/account-backend/issues"
+  },
+  "homepage": "https://github.com/BMMiklos/account-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.8.0",
+    "mongoose": "^6.1.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "typescript": "^4.5.4"
+  }
+}
