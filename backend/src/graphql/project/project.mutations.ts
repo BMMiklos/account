@@ -88,6 +88,8 @@ const deleteProject = {
       if (projectById) {
         await ProjectProcessModel.deleteMany({ project: id });
         await ProjectEntryModel.deleteMany({ project: id });
+      } else {
+        throw `There is no project with the given id ${id}!`;
       }
 
       let result = await ProjectModel.deleteOne({ _id: id });
@@ -214,30 +216,35 @@ const createEntry = {
     try {
       let entry;
 
-      let projectById = await ProjectModel.findById(data.project);
+      let projectById = await ProjectModel.findOne({
+        _id: data.project,
+      });
 
       if (projectById) {
         if (data.process) {
-          let processById = await ProjectProcessModel.findById(data.process);
+          await ProjectProcessModel.findOne({
+            _id: data.project,
+            project: data.process,
+          }).then(async (processById) => {
+            if (processById) {
+              entry = await ProjectEntryModel.create({
+                project: projectById._id,
+                title: data.title,
+                description: data.description,
+              });
 
-          if (processById) {
-            entry = await ProjectEntryModel.create({
-              project: projectById._id,
-              title: data.title,
-              description: data.description,
-            });
-
-            await ProjectProcessModel.updateOne(
-              {
-                _id: data.process,
-              },
-              {
-                $push: { entries: entry._id },
-              }
-            );
-          } else {
-            throw `Process with this id ${data.process} isn't exsists!`;
-          }
+              await ProjectProcessModel.updateOne(
+                {
+                  _id: data.process,
+                },
+                {
+                  $push: { entries: entry._id },
+                }
+              );
+            } else {
+              throw `Process with this id ${data.process} isn't exsists, or the process is not joined to the project!`;
+            }
+          });
         } else {
           entry = await ProjectEntryModel.create({
             project: projectById._id,
