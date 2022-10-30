@@ -27,14 +27,18 @@ const createProject = {
     data: { type: GraphQLNonNull(ProjectCreateInput) },
   },
   resolve: async (_, { data }) => {
-    let project = new ProjectModel({
-      title: data.title,
-      description: data.description,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-    let result = await project.save();
-    return result;
+    try {
+      let project = new ProjectModel({
+        title: data.title,
+        description: data.description,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      let result = await project.save();
+      return result;
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 
@@ -73,31 +77,36 @@ const deleteProject = {
 const createProcess = {
   type: ProcessType,
   args: {
-    project: { type: GraphQLNonNull(GraphQLID) },
     data: { type: GraphQLNonNull(ProcessCreateInput) },
   },
   resolve: async (_, { data }) => {
-    let process;
+    try {
+      let process;
 
-    let projectById = await ProjectModel.findById(data.project);
+      let projectById = await ProjectModel.findById(data.project);
 
-    if (projectById) {
-      let document = new ProjectProcessModel({
-        title: data.title,
-        description: data.description ? data.description : null,
-        project: data.project,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
+      if (projectById) {
+        let document = new ProjectProcessModel({
+          title: data.title,
+          description: data.description ? data.description : null,
+          project: data.project,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
 
-      process = await document.save();
+        process = await document.save();
 
-      await ProjectModel.findByIdAndUpdate(projectById._id, {
-        $push: { processes: process._id },
-      });
+        await ProjectModel.findByIdAndUpdate(projectById._id, {
+          $push: { processes: process._id },
+        });
+      } else {
+        throw `Process with this id ${data.process} isn't exsists!`;
+      }
+
+      return process;
+    } catch (error) {
+      throw new Error(error);
     }
-
-    return process;
   },
 };
 
@@ -108,9 +117,52 @@ const updateProcess = {
     data: { type: GraphQLNonNull(ProcessUpdateInput) },
   },
   resolve: async (_, { id, data }) => {
-    return await ProjectProcessModel.findByIdAndUpdate(id, data)
-      .populate({ path: "project" })
-      .populate({ path: "entries" });
+    try {
+
+      // let areEntriesEqual = false;
+      
+      await ProjectProcessModel.findById(id)
+        .populate({
+          path: "entries",
+        })
+        .then(async (process) => {
+          if (process) {
+            if (data.entryOrder) {
+              if (data.entryOrder.length == process.entries.length) {
+                let entriesUnion = process.entries.filter((entry) => {
+                  let isEntryExsistsEverywhere = false;
+                  for (const entryByOrder of data.entryOrder) {
+                    if (entry._id == entryByOrder) {
+                      isEntryExsistsEverywhere = true;
+                    }
+                  }
+                  return isEntryExsistsEverywhere;
+                });
+
+                if (entriesUnion.length == process.entries.length) {
+                  // areEntriesEqual = true;
+                } else {
+                  throw `Not the same entries are in the request array!`;
+                }
+              } else {
+                throw `The given id array is not the same length as in the database!`;
+              }
+            }
+          } else {
+            throw `No process is exsits with this id ${id}!`;
+          }
+        });
+
+      return await ProjectProcessModel.findByIdAndUpdate(id, {
+        ...data,
+        ...(data.entryOrder && { entries: data.entryOrder }),
+      })
+        .populate({ path: "project" })
+        .populate({ path: "entries" });
+    } catch (error) {
+      console.log(error);
+      return new Error(error);
+    }
   },
 };
 
@@ -141,56 +193,62 @@ const deleteProcess = {
 const createEntry = {
   type: EntryType,
   args: {
-    project: { type: GraphQLNonNull(GraphQLID) },
-    process: { type: GraphQLID },
     data: { type: GraphQLNonNull(EntryCreateInput) },
   },
   resolve: async (_, { data }) => {
-    let entry;
+    try {
+      let entry;
 
-    let projectById = await ProjectModel.findById(data.project);
+      let projectById = await ProjectModel.findById(data.project);
 
-    if (projectById) {
-      if (data.process) {
-        let processById = await ProjectProcessModel.findById(data.process);
+      if (projectById) {
+        if (data.process) {
+          let processById = await ProjectProcessModel.findById(data.process);
 
-        if (processById) {
+          if (processById) {
+            entry = await ProjectEntryModel.create({
+              project: projectById._id,
+              title: data.title,
+              description: data.description,
+            });
+
+            await ProjectProcessModel.updateOne(
+              {
+                _id: data.process,
+              },
+              {
+                $push: { entries: entry._id },
+              }
+            );
+          } else {
+            throw `Process with this id ${data.process} isn't exsists!`;
+          }
+        } else {
           entry = await ProjectEntryModel.create({
             project: projectById._id,
             title: data.title,
             description: data.description,
           });
-
-          await ProjectProcessModel.updateOne(
-            {
-              _id: data.process,
-            },
-            {
-              $push: { entries: entry._id },
-            }
-          );
         }
       } else {
-        entry = await ProjectEntryModel.create({
-          project: projectById._id,
-          title: data.title,
-          description: data.description,
-        });
+        throw `Project with this id ${data.project} isn't exsists!`;
       }
-    }
 
-    if (entry) {
-      await ProjectModel.updateOne(
-        {
-          _id: data.project,
-        },
-        {
-          $push: { entries: entry._id },
-        }
-      );
-    }
+      if (entry) {
+        await ProjectModel.updateOne(
+          {
+            _id: data.project,
+          },
+          {
+            $push: { entries: entry._id },
+          }
+        );
+      }
 
-    return entry;
+      return entry;
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 

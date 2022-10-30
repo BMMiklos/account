@@ -4,6 +4,7 @@ import {
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
+  GraphQLID
 } from "graphql";
 
 let ProcessType: GraphQLObjectType;
@@ -37,6 +38,7 @@ const ProjectUpdateInput = new GraphQLInputObjectType({
   fields: {
     title: { type: GraphQLString },
     description: { type: GraphQLString },
+    processOrder: { type: GraphQLList(GraphQLID) }
   },
 });
 
@@ -58,7 +60,7 @@ ProcessType = new GraphQLObjectType({
 const ProcessCreateInput = new GraphQLInputObjectType({
   name: "ProcessCreateInput",
   fields: {
-    project: { type: GraphQLNonNull(GraphQLString) },
+    project: { type: GraphQLNonNull(GraphQLID) },
     title: { type: GraphQLNonNull(GraphQLString) },
     description: { type: GraphQLString },
   },
@@ -69,6 +71,7 @@ const ProcessUpdateInput = new GraphQLInputObjectType({
   fields: {
     title: { type: GraphQLString },
     description: { type: GraphQLString },
+    entryOrder: { type: GraphQLList(GraphQLID) }
   },
 });
 
