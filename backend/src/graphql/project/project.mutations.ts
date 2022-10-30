@@ -82,15 +82,19 @@ const deleteProject = {
     id: { type: GraphQLNonNull(GraphQLID) },
   },
   resolve: async (_, { id }) => {
-    let projectById = await ProjectModel.findById(id);
+    try {
+      let projectById = await ProjectModel.findById(id);
 
-    if (projectById) {
-      await ProjectProcessModel.updateMany({ project: id }, { project: null });
-      await ProjectEntryModel.updateMany({ project: id }, { project: null });
+      if (projectById) {
+        await ProjectProcessModel.deleteMany({ project: id });
+        await ProjectEntryModel.deleteMany({ project: id });
+      }
+
+      let result = await ProjectModel.deleteOne({ _id: id });
+      return result.deletedCount ? true : false;
+    } catch (error) {
+      return new Error(error);
     }
-
-    let result = await ProjectModel.deleteOne({ _id: id });
-    return result.deletedCount ? true : false;
   },
 };
 
@@ -125,7 +129,7 @@ const createProcess = {
 
       return process;
     } catch (error) {
-      throw new Error(error);
+      return new Error(error);
     }
   },
 };
@@ -177,21 +181,27 @@ const deleteProcess = {
     id: { type: GraphQLNonNull(GraphQLID) },
   },
   resolve: async (_, { id }) => {
-    let processById = await ProjectProcessModel.findById(id);
+    try {
+      let processById = await ProjectProcessModel.findById(id);
 
-    if (processById) {
-      await ProjectModel.updateMany(
-        {
-          processes: processById._id,
-        },
-        {
-          $pull: { processes: processById._id },
-        }
-      );
+      if (processById) {
+        await ProjectModel.updateMany(
+          {
+            processes: processById._id,
+          },
+          {
+            $pull: { processes: processById._id },
+          }
+        );
+      } else {
+        throw `The process with the given id is not found ${id}!`;
+      }
+
+      let result = await ProjectProcessModel.deleteOne({ _id: id });
+      return result.deletedCount ? true : false;
+    } catch (error) {
+      return new Error(error);
     }
-
-    let result = await ProjectProcessModel.deleteOne({ _id: id });
-    return result.deletedCount ? true : false;
   },
 };
 
@@ -264,9 +274,13 @@ const updateEntry = {
     data: { type: GraphQLNonNull(EntryUpdateInput) },
   },
   resolve: async (_, { id, data }) => {
-    return await ProjectEntryModel.findByIdAndUpdate(id, data).populate({
-      path: "project",
-    });
+    try {
+      return await ProjectEntryModel.findByIdAndUpdate(id, data).populate({
+        path: "project",
+      });
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 
@@ -276,15 +290,22 @@ const deleteEntry = {
     id: { type: GraphQLNonNull(GraphQLID) },
   },
   resolve: async (_, { id }) => {
-    await ProjectModel.updateMany({ entries: id }, { $pull: { entries: id } });
-    await ProjectProcessModel.updateMany(
-      { entries: id },
-      { $pull: { entries: id } }
-    );
-    let result = await ProjectEntryModel.deleteOne({
-      _id: id,
-    });
-    return result.deletedCount ? true : false;
+    try {
+      await ProjectModel.updateMany(
+        { entries: id },
+        { $pull: { entries: id } }
+      );
+      await ProjectProcessModel.updateMany(
+        { entries: id },
+        { $pull: { entries: id } }
+      );
+      let result = await ProjectEntryModel.deleteOne({
+        _id: id,
+      });
+      return result.deletedCount ? true : false;
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 
@@ -296,31 +317,29 @@ const setEntryToProcess = {
   },
   resolve: async (_, { entry: entryId, process: processId }) => {
     try {
-
       let result = false;
 
       await ProjectProcessModel.findOne({
         _id: processId,
-        entries: entryId
+        entries: entryId,
       }).then(async (process) => {
-
         if (process) {
           result = false;
         } else {
-
           await ProjectEntryModel.findById(entryId).then(async (entry) => {
             if (entry) {
-              let updateResult = await ProjectProcessModel.updateMany({ _id: processId }, {
-                $push: { entries: entryId }
-              });
-              
-              result = updateResult.modifiedCount ? true : false;
+              let updateResult = await ProjectProcessModel.updateMany(
+                { _id: processId },
+                {
+                  $push: { entries: entryId },
+                }
+              );
 
+              result = updateResult.modifiedCount ? true : false;
             } else {
               throw `There is no entry with the given id ${entryId}`;
             }
           });
-
         }
       });
 
@@ -331,23 +350,24 @@ const setEntryToProcess = {
   },
 };
 
-const removeEntryFromProcess = {  type: GraphQLBoolean,
+const removeEntryFromProcess = {
+  type: GraphQLBoolean,
   args: {
     entry: { type: GraphQLNonNull(GraphQLID) },
     process: { type: GraphQLNonNull(GraphQLID) },
   },
   resolve: async (_, { entry, process }) => {
     try {
-
-      let result = await ProjectProcessModel.updateMany({
-        _id: process 
-      },
-      {
-        $pull: { entries: entry }
-      });
+      let result = await ProjectProcessModel.updateMany(
+        {
+          _id: process,
+        },
+        {
+          $pull: { entries: entry },
+        }
+      );
 
       return result.modifiedCount ? true : false;
-    
     } catch (error) {
       return new Error(error);
     }
@@ -365,7 +385,7 @@ const projectMutations = {
   deleteEnty: deleteEntry,
   updateEntry: updateEntry,
   setEntryToProcess: setEntryToProcess,
-  removeEntryFromProcess: removeEntryFromProcess
+  removeEntryFromProcess: removeEntryFromProcess,
 };
 
 export default projectMutations;
