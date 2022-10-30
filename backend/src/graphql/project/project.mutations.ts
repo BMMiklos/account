@@ -1,9 +1,4 @@
-import {
-  GraphQLBoolean,
-  GraphQLFieldConfig,
-  GraphQLID,
-  GraphQLNonNull,
-} from "graphql";
+import { GraphQLBoolean, GraphQLID, GraphQLNonNull } from "graphql";
 import {
   ProjectProcessModel,
   ProjectEntryModel,
@@ -49,9 +44,35 @@ const updateProject = {
     data: { type: GraphQLNonNull(ProjectUpdateInput) },
   },
   resolve: async (_, { id, data }) => {
-    return await ProjectModel.findByIdAndUpdate(id, data)
-      .populate({ path: "processes" })
-      .populate({ path: "entries" });
+    try {
+      await ProjectModel.findById(id)
+        .populate({ path: "processes" })
+        .then(async (project) => {
+          if (project) {
+            if (data.processOrder) {
+              project.processes.every((process) => {
+                for (const processByOrder of data.processOrder) {
+                  if (processByOrder == process._id) {
+                    return true;
+                  }
+                }
+                throw "The given processes are not the same!";
+              });
+            }
+          } else {
+            throw `No project is exsits with the given id ${id}!`;
+          }
+        });
+
+      return await ProjectModel.findByIdAndUpdate(id, {
+        ...data,
+        ...(data.processOrder && data.processOrder),
+      })
+        .populate({ path: "processes" })
+        .populate({ path: "entries" });
+    } catch (error) {
+      return new Error(error);
+    }
   },
 };
 
@@ -65,7 +86,6 @@ const deleteProject = {
 
     if (projectById) {
       await ProjectProcessModel.updateMany({ project: id }, { project: null });
-
       await ProjectEntryModel.updateMany({ project: id }, { project: null });
     }
 
@@ -118,9 +138,6 @@ const updateProcess = {
   },
   resolve: async (_, { id, data }) => {
     try {
-
-      // let areEntriesEqual = false;
-      
       await ProjectProcessModel.findById(id)
         .populate({
           path: "entries",
@@ -128,25 +145,14 @@ const updateProcess = {
         .then(async (process) => {
           if (process) {
             if (data.entryOrder) {
-              if (data.entryOrder.length == process.entries.length) {
-                let entriesUnion = process.entries.filter((entry) => {
-                  let isEntryExsistsEverywhere = false;
-                  for (const entryByOrder of data.entryOrder) {
-                    if (entry._id == entryByOrder) {
-                      isEntryExsistsEverywhere = true;
-                    }
+              process.entries.every((process) => {
+                for (const entryByOrder of data.entryOrder) {
+                  if (entryByOrder == process._id) {
+                    return true;
                   }
-                  return isEntryExsistsEverywhere;
-                });
-
-                if (entriesUnion.length == process.entries.length) {
-                  // areEntriesEqual = true;
-                } else {
-                  throw `Not the same entries are in the request array!`;
                 }
-              } else {
-                throw `The given id array is not the same length as in the database!`;
-              }
+                throw "The given entries are not the same!";
+              });
             }
           } else {
             throw `No process is exsits with this id ${id}!`;
@@ -160,7 +166,6 @@ const updateProcess = {
         .populate({ path: "project" })
         .populate({ path: "entries" });
     } catch (error) {
-      console.log(error);
       return new Error(error);
     }
   },
@@ -283,6 +288,72 @@ const deleteEntry = {
   },
 };
 
+const setEntryToProcess = {
+  type: GraphQLBoolean,
+  args: {
+    entry: { type: GraphQLNonNull(GraphQLID) },
+    process: { type: GraphQLNonNull(GraphQLID) },
+  },
+  resolve: async (_, { entry: entryId, process: processId }) => {
+    try {
+
+      let result = false;
+
+      await ProjectProcessModel.findOne({
+        _id: processId,
+        entries: entryId
+      }).then(async (process) => {
+
+        if (process) {
+          result = false;
+        } else {
+
+          await ProjectEntryModel.findById(entryId).then(async (entry) => {
+            if (entry) {
+              let updateResult = await ProjectProcessModel.updateMany({ _id: processId }, {
+                $push: { entries: entryId }
+              });
+              
+              result = updateResult.modifiedCount ? true : false;
+
+            } else {
+              throw `There is no entry with the given id ${entryId}`;
+            }
+          });
+
+        }
+      });
+
+      return result;
+    } catch (error) {
+      return new Error(error);
+    }
+  },
+};
+
+const removeEntryFromProcess = {  type: GraphQLBoolean,
+  args: {
+    entry: { type: GraphQLNonNull(GraphQLID) },
+    process: { type: GraphQLNonNull(GraphQLID) },
+  },
+  resolve: async (_, { entry, process }) => {
+    try {
+
+      let result = await ProjectProcessModel.updateMany({
+        _id: process 
+      },
+      {
+        $pull: { entries: entry }
+      });
+
+      return result.modifiedCount ? true : false;
+    
+    } catch (error) {
+      return new Error(error);
+    }
+  },
+};
+
 const projectMutations = {
   createProject: createProject,
   updateProject: updateProject,
@@ -293,6 +364,8 @@ const projectMutations = {
   createEntry: createEntry,
   deleteEnty: deleteEntry,
   updateEntry: updateEntry,
+  setEntryToProcess: setEntryToProcess,
+  removeEntryFromProcess: removeEntryFromProcess
 };
 
 export default projectMutations;
