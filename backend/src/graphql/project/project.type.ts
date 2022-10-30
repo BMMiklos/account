@@ -7,7 +7,7 @@ import {
   GraphQLString,
 } from "graphql";
 
-let ColumnType: GraphQLObjectType;
+let ProcessType: GraphQLObjectType;
 let EntryType: GraphQLObjectType;
 
 const ProjectType = new GraphQLObjectType({
@@ -16,7 +16,7 @@ const ProjectType = new GraphQLObjectType({
     return {
       _id: { type: GraphQLString },
       title: { type: GraphQLString },
-      columns: { type: GraphQLList(ColumnType) },
+      processes: { type: GraphQLList(ProcessType) },
       entries: { type: GraphQLList(EntryType) },
       description: { type: GraphQLString },
       createdAt: { type: GraphQLString },
@@ -41,8 +41,8 @@ const ProjectUpdateInput = new GraphQLInputObjectType({
   },
 });
 
-ColumnType = new GraphQLObjectType({
-  name: "Column",
+ProcessType = new GraphQLObjectType({
+  name: "Process",
   fields: () => {
     return {
       _id: { type: GraphQLString },
@@ -57,8 +57,8 @@ ColumnType = new GraphQLObjectType({
   },
 });
 
-const ColumnCreateInput = new GraphQLInputObjectType({
-  name: "ColumnCreateInput",
+const ProcessCreateInput = new GraphQLInputObjectType({
+  name: "ProcessCreateInput",
   fields: {
     title: { type: GraphQLNonNull(GraphQLString) },
     description: { type: GraphQLString },
@@ -66,8 +66,8 @@ const ColumnCreateInput = new GraphQLInputObjectType({
   },
 });
 
-const ColumnUpdateInput = new GraphQLInputObjectType({
-  name: "ColumnUpdateInput",
+const ProcessUpdateInput = new GraphQLInputObjectType({
+  name: "ProcessUpdateInput",
   fields: {
     title: { type: GraphQLString },
     description: { type: GraphQLString },
@@ -108,9 +108,9 @@ export {
   ProjectType,
   ProjectCreateInput,
   ProjectUpdateInput,
-  ColumnType,
-  ColumnCreateInput,
-  ColumnUpdateInput,
+  ProcessType,
+  ProcessCreateInput,
+  ProcessUpdateInput,
   EntryType,
   EntryCreateInput,
   EntryUpdateInput

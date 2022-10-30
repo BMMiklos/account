@@ -5,13 +5,19 @@ import {
   GraphQLNonNull,
   GraphQLString,
 } from "graphql";
-import { ProjectModel, ProjectColumnModel, ProjectEntryModel } from "../../models/project";
-import { ColumnType, EntryType, ProjectType } from "./project-type";
+import {
+  ProjectModel,
+  ProjectProcessModel,
+  ProjectEntryModel,
+} from "../../models/project";
+import { ProcessType, EntryType, ProjectType } from "./project.type";
 
 const projects: GraphQLFieldConfig<any, {}, any> = {
   type: new GraphQLList(ProjectType),
   resolve: async (_, {}) => {
-    let result = await ProjectModel.find({}).populate({ path: "columns" }).populate({ path: "entries" });
+    let result = await ProjectModel.find({})
+      .populate({ path: "processes" })
+      .populate({ path: "entries" });
     return result;
   },
 };
@@ -29,7 +35,9 @@ const projectsBySearch = {
         { title: { $regex: searchQuery, $options: "i" } },
         { description: { $regex: searchQuery, $options: "i" } },
       ],
-    }).populate({ path: "columns" }).populate({ path: "entries" });
+    })
+      .populate({ path: "processes" })
+      .populate({ path: "entries" });
     return result;
   },
 };
@@ -42,42 +50,40 @@ const projectById = {
     },
   },
   resolve: async (_, { id }) => {
-    let result = await ProjectModel.findById(id).populate({ path: "columns" }).populate({ path: "entries" });
+    let result = await ProjectModel.findById(id)
+      .populate({ path: "processes" })
+      .populate({ path: "entries" });
     return result;
   },
 };
 
-const columns = {
-  type: GraphQLList(ColumnType),
-  resolve: async (_, {}) => {
-    let result = await ProjectColumnModel.find({}).populate({ path: "project" }).populate({ path: "entries" });
-    return result;
-  },
-};
-
-const columnById = {
-  type: ColumnType,
+const processById = {
+  type: ProcessType,
   args: {
     id: {
       type: GraphQLNonNull(GraphQLID),
     },
   },
   resolve: async (_, { id }) => {
-    let result = await ProjectColumnModel.findById(id).populate({ path: "project" }).populate({ path: "entries" });
+    let result = await ProjectProcessModel.findById(id)
+      .populate({ path: "project" })
+      .populate({ path: "entries" });
     return result;
   },
 };
 
-const columnsByProject = {
-  type: new GraphQLList(ColumnType),
+const processesByProject = {
+  type: new GraphQLList(ProcessType),
   args: {
     project: {
       type: GraphQLNonNull(GraphQLID),
     },
   },
   resolve: async (_, { project }) => {
-    let projectById = await ProjectModel.findById(project).populate({ path: "columns" }).populate({ path: "entries" });
-    return projectById.columns;
+    let projectById = await ProjectModel.findById(project)
+      .populate({ path: "processes" })
+      .populate({ path: "entries" });
+    return projectById.processes;
   },
 };
 
@@ -89,32 +95,35 @@ const entryById = {
     },
   },
   resolve: async (_, { id }) => {
-    let entryById = await ProjectEntryModel.findById(id).populate({ path: "project" });
+    let entryById = await ProjectEntryModel.findById(id).populate({
+      path: "project",
+    });
     return entryById;
   },
 };
 
-const entriesByColumn = {
+const entriesByProcess = {
   type: new GraphQLList(EntryType),
   args: {
-    column: {
+    process: {
       type: GraphQLNonNull(GraphQLID),
     },
   },
-  resolve: async (_, { column }) => {
-    let entriesByColumn = await ProjectColumnModel.findById(column).populate({ path: "entries" });
-    return entriesByColumn.entries;
+  resolve: async (_, { process }) => {
+    let entriesByProcess = await ProjectProcessModel.findById(process).populate({
+      path: "entries",
+    });
+    return entriesByProcess.entries;
   },
 };
 
 const projectQueries = {
   projects,
   projectsBySearch,
-  projectById: projectById,
-  columns,
-  columnById,
-  columnsByProject,
-  entriesByColumn,
+  projectById,
+  processById,
+  processesByProject,
+  entriesByProcess,
   entryById,
 };
 

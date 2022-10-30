@@ -2,7 +2,7 @@
 // import rootSchema from "./graphql/root-schema";
 
 import { GraphQLSchema } from "graphql";
-import { mutationType, queryType } from "./graphql/graphql-type";
+import { mutationType, queryType } from "./graphql/graphql.main";
 
 const express = require("express");
 const app = express();

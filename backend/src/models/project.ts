@@ -4,7 +4,7 @@ const projectSchema = new Schema<any>({
   // _id: Schema.Types.ObjectId,
   title: String,
   description: String,
-  columns: [{ type: Schema.Types.ObjectId, ref: 'column' }],
+  processes: [{ type: Schema.Types.ObjectId, ref: 'process' }],
   entries: [{ type: Schema.Types.ObjectId, ref: 'entry' }],
   createdAt: Number,
   updatedAt: Number
@@ -12,7 +12,7 @@ const projectSchema = new Schema<any>({
 
 const ProjectModel = model("project", projectSchema);
 
-const projectColumnSchema = new Schema<any>({
+const projectProcessSchema = new Schema<any>({
   // _id: Types.ObjectId,
   order: Number,
   title: { type: String, required: false },
@@ -23,7 +23,7 @@ const projectColumnSchema = new Schema<any>({
   updatedAt: Number
 });
 
-const ProjectColumnModel = model("column", projectColumnSchema);
+const ProjectProcessModel = model("process", projectProcessSchema);
 
 const projectEntrySchema =  new Schema<any>({
   // _id: Types.ObjectId,
@@ -37,4 +37,4 @@ const projectEntrySchema =  new Schema<any>({
 
 const ProjectEntryModel = model("entry", projectEntrySchema);
 
-export { ProjectModel, ProjectColumnModel, ProjectEntryModel };
+export { ProjectModel, ProjectProcessModel as ProjectProcessModel, ProjectEntryModel };

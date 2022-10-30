@@ -1,6 +1,6 @@
 import { GraphQLInputObjectType, GraphQLInt, GraphQLObjectType } from "graphql";
-import projectMutations from "./project/project-mutations";
-import projectQueries from "./project/project-queries";
+import projectMutations from "./project/project.mutations";
+import projectQueries from "./project/project.queries";
 
 const PaginationInputType = new GraphQLInputObjectType({
   name: "PaginationInput",

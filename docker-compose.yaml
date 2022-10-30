@@ -17,7 +17,7 @@ services:
     # restart: always
     working_dir: /home/node/app
     volumes:
-      - ./account:/home/node/app
+      - ./backend:/home/node/app
     command: bash -c "npm install && npx tsc --watch"
 
   node:
@@ -27,5 +27,5 @@ services:
     ports:
       - 4000:4000
     volumes:
-      - ./account:/home/node/app
+      - ./backend:/home/node/app
     command: bash -c "npm install && npx tsc && npx nodemon"

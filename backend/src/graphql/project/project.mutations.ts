@@ -2,25 +2,24 @@ import {
   GraphQLBoolean,
   GraphQLFieldConfig,
   GraphQLID,
-  GraphQLList,
   GraphQLNonNull,
 } from "graphql";
 import {
-  ProjectColumnModel,
+  ProjectProcessModel,
   ProjectEntryModel,
   ProjectModel,
 } from "../../models/project";
 import {
-  ColumnCreateInput,
-  ColumnType,
-  ColumnUpdateInput,
+  ProcessCreateInput,
+  ProcessType,
+  ProcessUpdateInput,
   EntryCreateInput,
   EntryType,
   EntryUpdateInput,
   ProjectCreateInput,
   ProjectType,
   ProjectUpdateInput,
-} from "./project-type";
+} from "./project.type";
 
 const createProject: GraphQLFieldConfig<any, any, any> = {
   type: ProjectType,
@@ -47,7 +46,7 @@ const updateProject: GraphQLFieldConfig<any, any, any> = {
   },
   resolve: async (_, { id, data }) => {
     return await ProjectModel.findByIdAndUpdate(id, data)
-      .populate({ path: "columns" })
+      .populate({ path: "processes" })
       .populate({ path: "entries" });
   },
 };
@@ -61,7 +60,7 @@ const deleteProject: GraphQLFieldConfig<any, any, any> = {
     let projectById = await ProjectModel.findById(id);
 
     if (projectById) {
-      await ProjectColumnModel.updateMany({ project: id }, { project: null });
+      await ProjectProcessModel.updateMany({ project: id }, { project: null });
 
       await ProjectEntryModel.updateMany({ project: id }, { project: null });
     }
@@ -71,19 +70,19 @@ const deleteProject: GraphQLFieldConfig<any, any, any> = {
   },
 };
 
-const createColumn: GraphQLFieldConfig<any, any, any> = {
-  type: ColumnType,
+const createProcess: GraphQLFieldConfig<any, any, any> = {
+  type: ProcessType,
   args: {
     project: { type: GraphQLNonNull(GraphQLID) },
-    data: { type: GraphQLNonNull(ColumnCreateInput) },
+    data: { type: GraphQLNonNull(ProcessCreateInput) },
   },
   resolve: async (_, { project, data }) => {
-    let column;
+    let process;
 
     let projectById = await ProjectModel.findById(project);
 
     if (projectById) {
-      let document = new ProjectColumnModel({
+      let document = new ProjectProcessModel({
         title: data.title,
         description: data.description ? data.description : null,
         project: project,
@@ -92,50 +91,50 @@ const createColumn: GraphQLFieldConfig<any, any, any> = {
         updatedAt: new Date(),
       });
 
-      column = await document.save();
+      process = await document.save();
 
       await ProjectModel.findByIdAndUpdate(projectById._id, {
-        $push: { columns: column._id },
+        $push: { processes: process._id },
       });
     }
 
-    return column;
+    return process;
   },
 };
 
-const updateColumn: GraphQLFieldConfig<any, any, any> = {
-  type: ColumnType,
+const updateProcess: GraphQLFieldConfig<any, any, any> = {
+  type: ProcessType,
   args: {
     id: { type: GraphQLNonNull(GraphQLID) },
-    data: { type: GraphQLNonNull(ColumnUpdateInput) },
+    data: { type: GraphQLNonNull(ProcessUpdateInput) },
   },
   resolve: async (_, { id, data }) => {
-    return await ProjectColumnModel.findByIdAndUpdate(id, data)
+    return await ProjectProcessModel.findByIdAndUpdate(id, data)
       .populate({ path: "project" })
       .populate({ path: "entries" });
   },
 };
 
-const deleteColumn: GraphQLFieldConfig<any, any, any> = {
+const deleteProcess: GraphQLFieldConfig<any, any, any> = {
   type: GraphQLBoolean,
   args: {
     id: { type: GraphQLNonNull(GraphQLID) },
   },
   resolve: async (_, { id }) => {
-    let columnById = await ProjectColumnModel.findById(id);
+    let processById = await ProjectProcessModel.findById(id);
 
-    if (columnById) {
+    if (processById) {
       await ProjectModel.updateMany(
         {
-          columns: columnById._id,
+          processes: processById._id,
         },
         {
-          $pull: { columns: columnById._id },
+          $pull: { processes: processById._id },
         }
       );
     }
 
-    let result = await ProjectColumnModel.deleteOne({ _id: id });
+    let result = await ProjectProcessModel.deleteOne({ _id: id });
     return result.deletedCount ? true : false;
   },
 };
@@ -144,19 +143,19 @@ const createEntry: GraphQLFieldConfig<any, any, any> = {
   type: EntryType,
   args: {
     project: { type: GraphQLNonNull(GraphQLID) },
-    column: { type: GraphQLID },
+    process: { type: GraphQLID },
     data: { type: GraphQLNonNull(EntryCreateInput) },
   },
-  resolve: async (_, { project, column, data }) => {
+  resolve: async (_, { project, process, data }) => {
     let entry;
 
     let projectById = await ProjectModel.findById(project);
 
     if (projectById) {
-      if (column) {
-        let columnById = await ProjectColumnModel.findById(column);
+      if (process) {
+        let processById = await ProjectProcessModel.findById(process);
 
-        if (columnById) {
+        if (processById) {
           entry = await ProjectEntryModel.create({
             project: projectById._id,
             order: data.order,
@@ -164,9 +163,9 @@ const createEntry: GraphQLFieldConfig<any, any, any> = {
             description: data.description,
           });
 
-          await ProjectColumnModel.updateOne(
+          await ProjectProcessModel.updateOne(
             {
-              _id: column,
+              _id: process,
             },
             {
               $push: { entries: entry._id },
@@ -218,7 +217,7 @@ const deleteEntry = {
   },
   resolve: async (_, { id }) => {
     await ProjectModel.updateMany({ entries: id }, { $pull: { entries: id } });
-    await ProjectColumnModel.updateMany(
+    await ProjectProcessModel.updateMany(
       { entries: id },
       { $pull: { entries: id } }
     );
@@ -229,61 +228,16 @@ const deleteEntry = {
   },
 };
 
-const moveEntry = {
-  type: GraphQLBoolean,
-  args: {
-    id: { type: GraphQLNonNull(GraphQLID) },
-    fromColumn: { type: GraphQLID },
-    toColumn: { type: GraphQLID },
-  },
-  resolve: async (_, { id, fromColumn, toColumn }) => {
-    let entry = await ProjectEntryModel.findById(id);
-    let columnToRemoveFrom = await ProjectColumnModel.findById(fromColumn);
-    let columnToInsertTo = await ProjectColumnModel.findById(toColumn);
-
-    let result = true;
-
-    if (entry) {
-      if (columnToRemoveFrom) {
-        let fromColumnResult = await ProjectColumnModel.findOneAndUpdate(
-          {
-            _id: fromColumn,
-            entries: id,
-          },
-          { $pull: { entries: id } }
-        );
-        result = fromColumnResult ? true : false;
-      }
-
-      if (columnToInsertTo) {
-        let toColumnResult = await ProjectColumnModel.findOneAndUpdate(
-          {
-            _id: toColumn,
-            entries: id,
-          },
-          { $push: { entries: id } }
-        );
-        result = toColumnResult ? true : false;
-      } else {
-        result = false;
-      }
-    }
-
-    return result;
-  },
-};
-
 const projectMutations = {
   createProject: createProject,
   updateProject: updateProject,
   deleteProject: deleteProject,
-  createColumn: createColumn,
-  updateColumn: updateColumn,
-  deleteColumn: deleteColumn,
+  createProcess: createProcess,
+  updateProcess: updateProcess,
+  deleteProcess: deleteProcess,
   createEntry: createEntry,
   deleteEnty: deleteEntry,
   updateEntry: updateEntry,
-  moveEntry: moveEntry,
 };
 
 export default projectMutations;
