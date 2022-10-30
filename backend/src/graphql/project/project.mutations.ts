@@ -76,16 +76,16 @@ const createProcess = {
     project: { type: GraphQLNonNull(GraphQLID) },
     data: { type: GraphQLNonNull(ProcessCreateInput) },
   },
-  resolve: async (_, { project, data }) => {
+  resolve: async (_, { data }) => {
     let process;
 
-    let projectById = await ProjectModel.findById(project);
+    let projectById = await ProjectModel.findById(data.project);
 
     if (projectById) {
       let document = new ProjectProcessModel({
         title: data.title,
         description: data.description ? data.description : null,
-        project: project,
+        project: data.project,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
@@ -145,14 +145,14 @@ const createEntry = {
     process: { type: GraphQLID },
     data: { type: GraphQLNonNull(EntryCreateInput) },
   },
-  resolve: async (_, { project, process, data }) => {
+  resolve: async (_, { data }) => {
     let entry;
 
-    let projectById = await ProjectModel.findById(project);
+    let projectById = await ProjectModel.findById(data.project);
 
     if (projectById) {
-      if (process) {
-        let processById = await ProjectProcessModel.findById(process);
+      if (data.process) {
+        let processById = await ProjectProcessModel.findById(data.process);
 
         if (processById) {
           entry = await ProjectEntryModel.create({
@@ -163,7 +163,7 @@ const createEntry = {
 
           await ProjectProcessModel.updateOne(
             {
-              _id: process,
+              _id: data.process,
             },
             {
               $push: { entries: entry._id },
@@ -182,7 +182,7 @@ const createEntry = {
     if (entry) {
       await ProjectModel.updateOne(
         {
-          _id: project,
+          _id: data.project,
         },
         {
           $push: { entries: entry._id },

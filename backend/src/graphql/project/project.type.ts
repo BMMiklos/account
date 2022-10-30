@@ -58,6 +58,7 @@ ProcessType = new GraphQLObjectType({
 const ProcessCreateInput = new GraphQLInputObjectType({
   name: "ProcessCreateInput",
   fields: {
+    project: { type: GraphQLNonNull(GraphQLString) },
     title: { type: GraphQLNonNull(GraphQLString) },
     description: { type: GraphQLString },
   },
@@ -84,6 +85,8 @@ EntryType = new GraphQLObjectType({
 const EntryCreateInput = new GraphQLInputObjectType({
   name: "EntryCreateInput",
   fields: {
+    project: { type: GraphQLNonNull(GraphQLString) },
+    process: { type: GraphQLString },
     title: { type: GraphQLNonNull(GraphQLString) },
     description: { type: GraphQLString },
   },
