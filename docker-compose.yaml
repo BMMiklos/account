@@ -29,3 +29,12 @@ services:
     volumes:
       - ./backend:/home/node/app
     command: bash -c "npm install && npx tsc && npx nodemon"
+
+  frontend:
+    image: node:16
+    working_dir: /home/node/app
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/home/node/app
+    command: bash -c "npm install && npm start"
