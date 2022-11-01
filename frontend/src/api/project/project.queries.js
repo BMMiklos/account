@@ -27,3 +27,67 @@ export const projectsBySearch = async (searchQuery = "") => {
     return await response.json();
 
 };
+
+export const projectById = async (id) => {
+
+    const response = await graphqlFetch({
+        operationName: "ProjectById",
+        query: `query ProjectById($id: ID!) {
+            projectById(id: $id) {
+                _id
+                title
+                processes {
+                    _id
+                    title
+                    description
+                }
+                entries {
+                    _id
+                    title
+                    description
+                }
+                description
+                createdAt
+                updatedAt
+            }
+        }`,
+        variables: {
+            id
+        }
+    });
+
+    return await response.json();
+
+};
+
+export const processesByProject = async (project) => {
+
+    const response = await graphqlFetch({
+        operationName: "ProcessesByProject",
+        query: `query ProcessesByProject($project: ID!) {
+            processesByProject(project: $project) {
+                _id
+                title
+                description
+                createdAt
+                updatedAt
+                project {
+                    _id
+                    title
+                    description
+                    createdAt
+                    updatedAt
+                }
+                entries {
+                    _id
+                }
+            }
+        }`,
+        variables: {
+            project
+        }
+    });
+
+    return await response.json();
+
+};

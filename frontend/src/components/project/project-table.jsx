@@ -2,8 +2,11 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { projectsBySearch } from "../../api/project/project.queries";
 import "./project-table.css";
+import { useNavigate } from "react-router-dom";
 
 export function ProjectTable() {
+
+    const navigate = useNavigate();
 
     const [queryString, setQueryString] = useState('');
     const [projects, setProjects] = useState([]);
@@ -13,7 +16,6 @@ export function ProjectTable() {
             setProjects(projectResponse?.data?.projectsBySearch);
         });
     }, [queryString]);
-
 
     return <div style={{
         display: 'flex',
@@ -25,7 +27,7 @@ export function ProjectTable() {
         <div>
             <input
                 type="text"
-                defaultValue="Search"
+                placeholder="Search"
                 onChange={(event) => { setQueryString(event.target.value) }} />
         </div>
 
@@ -46,8 +48,8 @@ export function ProjectTable() {
                     <td>{project.createdAt}</td>
                     <td>{project.updatedAt}</td>
                     <td>
-                        <button>Update</button>
-                        <button>Delete</button>
+                        <button onClick={() => { navigate(`/projects/${project._id}`); }} >Update</button>
+                        <button disabled onClick={() => { navigate(); }} >Delete</button>
                     </td>
                 </tr>)}
             </tbody>
