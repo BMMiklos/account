@@ -29,13 +29,13 @@ mutation createEntry {
 }
 
 mutation updateProcess {
-  updateProcess(id: "635e8519449d381458716282", data: {title: "DONE", entryOrder: ["635e899f667df0a6961f7759"]}) {
+  updateProcess(id: "635e8519449d381458716282", data: {title: "DONE"}) {
     _id
   }
 }
 
 mutation updateProject {
-  updateProject(id: "635e848e46b6c5d9c2ab2418", data: {title: "Csicskak", description: "desc.", processOrder: ["635e8519449d381458716282", "635ea500ea1277614e506c80"]}) {
+  updateProject(id: "635e848e46b6c5d9c2ab2418", data: {title: "Csicskak", description: "desc."}) {
     _id
   }
 }
@@ -104,6 +104,16 @@ query processesByProject {
     description
     createdAt
     updatedAt
+    project {
+      _id
+      title
+      description
+      createdAt
+      updatedAt
+    }
+    entries {
+      _id
+    }
   }
 }
 
@@ -143,4 +153,12 @@ query projectById {
       updatedAt
     }
   }
+}
+
+mutation moveProcess {
+  moveProcess(project: "635eb297a0d8d9e8090a81c6", process: "635eb308a0d8d9e8090a81e1", index: 1)
+}
+
+mutation moveEntry {
+  moveEntry(project: "635eb297a0d8d9e8090a81c6", entry: "635eb403a0d8d9e8090a8223", index: 0, process: "635eb2f9a0d8d9e8090a81d7")
 }

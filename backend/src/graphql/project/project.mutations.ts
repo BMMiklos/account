@@ -1,4 +1,10 @@
-import { GraphQLBoolean, GraphQLID, GraphQLNonNull } from "graphql";
+import {
+  GraphQLBoolean,
+  GraphQLEnumType,
+  GraphQLID,
+  GraphQLInt,
+  GraphQLNonNull,
+} from "graphql";
 import {
   ProjectProcessModel,
   ProjectEntryModel,
@@ -48,25 +54,13 @@ const updateProject = {
       await ProjectModel.findById(id)
         .populate({ path: "processes" })
         .then(async (project) => {
-          if (project) {
-            if (data.processOrder) {
-              project.processes.every((process) => {
-                for (const processByOrder of data.processOrder) {
-                  if (processByOrder == process._id) {
-                    return true;
-                  }
-                }
-                throw "The given processes are not the same!";
-              });
-            }
-          } else {
+          if (!project) {
             throw `No project is exsits with the given id ${id}!`;
           }
         });
 
       return await ProjectModel.findByIdAndUpdate(id, {
         ...data,
-        ...(data.processOrder && data.processOrder),
       })
         .populate({ path: "processes" })
         .populate({ path: "entries" });
@@ -149,25 +143,13 @@ const updateProcess = {
           path: "entries",
         })
         .then(async (process) => {
-          if (process) {
-            if (data.entryOrder) {
-              process.entries.every((process) => {
-                for (const entryByOrder of data.entryOrder) {
-                  if (entryByOrder == process._id) {
-                    return true;
-                  }
-                }
-                throw "The given entries are not the same!";
-              });
-            }
-          } else {
+          if (!process) {
             throw `No process is exsits with this id ${id}!`;
           }
         });
 
       return await ProjectProcessModel.findByIdAndUpdate(id, {
         ...data,
-        ...(data.entryOrder && { entries: data.entryOrder }),
       })
         .populate({ path: "project" })
         .populate({ path: "entries" });
@@ -390,6 +372,165 @@ const removeEntryFromProcess = {
   },
 };
 
+const moveProcess = {
+  type: GraphQLBoolean,
+  args: {
+    project: { type: GraphQLNonNull(GraphQLID) },
+    process: { type: GraphQLNonNull(GraphQLID) },
+    index: { type: GraphQLNonNull(GraphQLInt) },
+  },
+  resolve: async (
+    _,
+    { project: projectId, process: processId, index: processIndex }
+  ) => {
+    try {
+      await ProjectModel.findById(projectId).then(async (project) => {
+        if (project) {
+          let process = await ProjectProcessModel.findById(processId);
+          if (!process) {
+            throw `The process cannot be found with the given id ${processId}!`;
+          }
+
+          let processes = [...project.processes];
+          const processIsJoinedToProject = processes.some(
+            (processInProject) => processInProject._id == processId
+          );
+          if (processIsJoinedToProject) {
+            let actualProcessIndex = processes.findIndex(
+              (processInProject) => processInProject._id == processId
+            );
+
+            processes.splice(actualProcessIndex, 1);
+            processes.splice(processIndex, 0, processId);
+
+            await ProjectModel.updateMany(
+              {
+                _id: projectId,
+              },
+              {
+                processes: processes,
+              }
+            );
+          } else {
+            throw `The process is not joined to the project ${projectId}!`;
+          }
+        } else {
+          throw `There is no project with the given id ${projectId}`;
+        }
+
+        return true;
+      });
+    } catch (error) {
+      return new Error(error);
+    }
+  },
+};
+
+const moveEntry = {
+  type: GraphQLBoolean,
+  args: {
+    project: { type: GraphQLNonNull(GraphQLID) },
+    process: { type: GraphQLID },
+    entry: { type: GraphQLNonNull(GraphQLID) },
+    index: { type: GraphQLNonNull(GraphQLInt) },
+  },
+  resolve: async (
+    _,
+    {
+      project: projectId,
+      process: processId,
+      entry: entryId,
+      index: entryIndex,
+    }
+  ) => {
+    try {
+      await ProjectModel.findById(projectId).then(async (project) => {
+        if (project) {
+          await ProjectEntryModel.findById(entryId).then(async (entry) => {
+            if (entry) {
+              const entryActualProcess = await ProjectProcessModel.findOne({
+                entries: entryId,
+              });
+
+              if (processId) {
+                // If there is process id given that means, i have to remove the entry from the old one, and join to the new one
+
+                const newEntryProcess = await ProjectProcessModel.findOne({
+                  _id: processId,
+                });
+
+                if (newEntryProcess.project != entry.project) {
+                  throw `The two entities are not in the same project!`;
+                }
+
+                if (newEntryProcess) {
+                  // if the entry weren't connected to any processes
+                  if (entryActualProcess) {
+                    await ProjectProcessModel.updateOne(
+                      {
+                        _id: entryActualProcess._id,
+                      },
+                      {
+                        $pull: {
+                          entries: entryId,
+                        },
+                      }
+                    );
+                  }
+
+                  let newProcessEntries = [...newEntryProcess.entries];
+                  newProcessEntries.splice(
+                    newProcessEntries.length,
+                    0,
+                    entryId
+                  );
+
+                  await ProjectProcessModel.updateOne(
+                    {
+                      _id: newEntryProcess._id,
+                    },
+                    {
+                      entries: newProcessEntries,
+                    }
+                  );
+                } else {
+                  throw `There is no process with the given id ${processId}!`;
+                }
+              } else {
+                // If there is no process id given, it means that only a sort is goning to happen in the process
+                if (entryActualProcess) {
+                  let actualEntryArray = [...entryActualProcess.entries];
+                  let actualEntryIndex = actualEntryArray.findIndex(
+                    (actualEntryArrayId) => actualEntryArrayId == entryId
+                  );
+
+                  actualEntryArray.splice(actualEntryIndex, 1);
+                  actualEntryArray.splice(entryIndex, 0, entryIndex);
+
+                  await ProjectProcessModel.updateOne(
+                    {
+                      _id: entryActualProcess._id,
+                    },
+                    {
+                      entries: actualEntryArray,
+                    }
+                  );
+                }
+              }
+            } else {
+              throw `There is no entry with the given id ${entryId}!`;
+            }
+          });
+        } else {
+          throw `There is no project with the given id ${projectId}`;
+        }
+      });
+    } catch (error) {
+      return new Error(error);
+    }
+  },
+};
+
 const projectMutations = {
   createProject: createProject,
   updateProject: updateProject,
@@ -402,6 +543,8 @@ const projectMutations = {
   updateEntry: updateEntry,
   setEntryToProcess: setEntryToProcess,
   removeEntryFromProcess: removeEntryFromProcess,
+  moveProcess: moveProcess,
+  moveEntry: moveEntry,
 };
 
 export default projectMutations;

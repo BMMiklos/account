@@ -37,8 +37,7 @@ const ProjectUpdateInput = new GraphQLInputObjectType({
   name: "ProjectUpdateInput",
   fields: {
     title: { type: GraphQLString },
-    description: { type: GraphQLString },
-    processOrder: { type: GraphQLList(GraphQLID) }
+    description: { type: GraphQLString }
   },
 });
 
@@ -70,8 +69,7 @@ const ProcessUpdateInput = new GraphQLInputObjectType({
   name: "ProcessUpdateInput",
   fields: {
     title: { type: GraphQLString },
-    description: { type: GraphQLString },
-    entryOrder: { type: GraphQLList(GraphQLID) }
+    description: { type: GraphQLString }
   },
 });
 
