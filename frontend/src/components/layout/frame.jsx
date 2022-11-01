@@ -1,14 +1,7 @@
-import { Login } from "../login/login";
 import { NotificationBar } from "../navigation/notification-bar";
 import { Sidebar } from "../navigation/sidebar";
-
+import { Outlet } from "react-router-dom";
 import "./frame.css";
-
-import {
-    Outlet,
-    RouterProvider,
-} from "react-router-dom";
-import { router } from "../../routes/routes";
 
 export function Frame() {
     return <div className="aae-frame">
@@ -24,12 +17,9 @@ export function Frame() {
             </div>
 
             <div className="aae-frame__content">
-                <RouterProvider router={router}>
-                    <Outlet />
-                </RouterProvider>
+                <Outlet />
             </div>
 
         </div>
-
     </div>
 }

@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
+import * as React from "react";
 import "./sidebar.css";
 
 export function Sidebar() {
     return <nav className="aae-sidebar">
-        <a className="aae-siderbar__link" href="#">Home</a>
-        <a className="aae-siderbar__link" href="#">Proejcts</a>
-        <a className="aae-siderbar__link" href="#">Notifications</a>
-        <a className="aae-siderbar__link" href="#">Logout</a>
+        <Link className="aae-siderbar__link" to={'/'} >Home</Link>
+        <Link className="aae-siderbar__link" to={'projects'} >Proejcts</Link>
+        <Link className="aae-siderbar__link" to={'/'} >Notifications</Link>
+        <Link className="aae-siderbar__link" to={'/'} >Logout</Link>
     </nav>
 }

@@ -1,7 +1,8 @@
-import { Frame } from "./components/layout/frame";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes/routes";
 
 function App() {
-  return <Frame/>;
+  return <RouterProvider router={router} />
 }
 
 export default App;
