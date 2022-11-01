@@ -1,0 +1,17 @@
+.aae-sidebar {
+    display: flex;
+    background-color: #282c34;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    resize: horizontal;
+    padding: 12px;
+    width: 200px;
+    height: 100%;
+}
+
+.aae-siderbar__link {
+    color: rgb(236, 236, 236);
+    display: block;
+    text-decoration: none;
+}
