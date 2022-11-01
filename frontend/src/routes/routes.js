@@ -3,6 +3,7 @@ import {
   } from "react-router-dom";
 import { Frame } from "../components/layout/frame";
 import { Login } from "../components/login/login";
+import { CreateProject } from "../components/project/create-project";
 import { ProjectTable } from "../components/project/project-table";
 
 export const router = createBrowserRouter([
@@ -17,6 +18,10 @@ export const router = createBrowserRouter([
             {
                 path: "projects",
                 element: <ProjectTable/>
+            },
+            {
+                path: "projects/new",
+                element: <CreateProject/>
             }
         ]
     },

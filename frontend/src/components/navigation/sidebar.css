@@ -10,8 +10,16 @@
     height: 100%;
 }
 
+.aae-sidebar__link-wrapper {
+    margin-bottom: 20px;
+}
+
 .aae-siderbar__link {
     color: rgb(236, 236, 236);
     display: block;
     text-decoration: none;
+}
+
+.aae-sidebar__label {
+    color: white;
 }
