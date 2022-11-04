@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { updateProcess } from "../../../../api/project/project.mutations";
+import { deleteProcess, updateProcess } from "../../../../api/project/project.mutations";
 import { EntryList } from "./entry-list-item/entry-list";
 import "./process-item.css";
 
@@ -25,6 +25,22 @@ export function ProcessItem({ process }) {
             setEditMode(false);
         }
     }, [isSaved]);
+
+    /**
+     * Delete process
+     */
+
+    const [processToDelete, setProcessToDelete] = useState();
+
+    useEffect(() => {
+        if (processToDelete) {
+            deleteProcess(processToDelete._id).then((deleteProcessResponse) => {
+                if (deleteProcessResponse?.data?.deleteProcess) {
+                    setProcessToDelete(null);
+                }
+            });
+        }
+    }, [processToDelete]);
 
     return <div className="aae-process-item">
 
@@ -59,6 +75,8 @@ export function ProcessItem({ process }) {
                     setTitle(process.title);
                     setDescription(process.description);
                 }}>Cancel</button>}
+
+                <button onClick={() => { setProcessToDelete(process) }}>Delete</button>
 
 
                 {/* <button onClick={() => { setEntryCreateFormVisible(!isEntryCreateFormVisible) }}>New</button>
