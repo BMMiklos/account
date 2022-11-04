@@ -80,6 +80,8 @@ export const processesByProject = async (project) => {
                 }
                 entries {
                     _id
+                    title
+                    description
                 }
             }
         }`,

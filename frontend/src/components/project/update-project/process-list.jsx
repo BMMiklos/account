@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useState } from "react"
 import { processesByProject } from "../../../api/project/project.queries";
 import { ProcessItem } from "./process-list/process-item";
+import "./process-list/process-list.css";
 
 export function ProcessList({ project }) {
 
@@ -17,7 +18,7 @@ export function ProcessList({ project }) {
         }
     }, [project])
 
-    return <div>
+    return <div className="aae-process-list">
 
         {processes.map((process, index) => <ProcessItem process={process} key={process._id} />)}
 

@@ -28,6 +28,7 @@ const projectEntrySchema =  new Schema<any>({
   // _id: Types.ObjectId,
   title: { type: String, required: false },
   description: { type: String, required: false },
+  note: { type: String, required: false },
   project: { type: Schema.Types.ObjectId, ref: 'project' },
   createdAt: Number,
   updatedAt: Number

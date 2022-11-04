@@ -97,10 +97,18 @@ const processesByProject = {
   },
   resolve: async (_, { project }) => {
     try {
-      let projectById = await ProjectModel.findById(project)
-        .populate({ path: "processes" })
-        .populate({ path: "entries" });
-      return projectById.processes;
+      
+      let processes = await ProjectModel.findById(project).then(async (projectById) => {
+        if (projectById) {
+          return await ProjectProcessModel.find({
+            _id : projectById.processes
+          }).populate({ path: "entries" });
+        } else {
+          throw "The project cannot be found by the given id!";
+        }
+      });
+
+      return processes;
     } catch (error) {
       return new Error(error);
     }

@@ -1,0 +1,14 @@
+.aae-entry-list {
+  display: flex;
+}
+
+.aae-entry-list-item {
+  display: flex;
+}
+
+.aae-entry-list-item__title {
+  flex-grow: 1;
+}
+
+.aae-entry-list-item__events {
+}
