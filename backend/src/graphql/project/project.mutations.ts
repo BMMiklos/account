@@ -205,8 +205,8 @@ const createEntry = {
       if (projectById) {
         if (data.process) {
           await ProjectProcessModel.findOne({
-            _id: data.project,
-            project: data.process,
+            _id: data.process,
+            project: [data.project],
           }).then(async (processById) => {
             if (processById) {
               entry = await ProjectEntryModel.create({
