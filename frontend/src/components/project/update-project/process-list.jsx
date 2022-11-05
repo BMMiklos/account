@@ -45,7 +45,7 @@ export function ProcessList({ project }) {
                 project: project?._id
             }).then((createdProcessResponse) => {
                 if (createdProcessResponse?.data?.createProcess) {
-                    setCreatedProcess(createdProcessResponse?.data?.createProcess);
+                    // setCreatedProcess(createdProcessResponse?.data?.createProcess);
                     setProcessDataToCreate({ title: null, description: null });
                 }
             });

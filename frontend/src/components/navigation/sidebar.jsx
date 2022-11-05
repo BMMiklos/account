@@ -7,7 +7,7 @@ return <nav className="aae-sidebar">
 
     <div className="aae-sidebar__link-wrapper">
         <Link className="aae-siderbar__link" to={'/'} >Home</Link>
-        <Link className="aae-siderbar__link" to={'projects'} >Proejcts</Link>
+        <Link className="aae-siderbar__link" to={'projects'} >Projects</Link>
         <Link className="aae-siderbar__link" to={'/'} >Notifications</Link>
         <Link className="aae-siderbar__link" to={'/'} >Logout</Link>
     </div>

@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { deleteProcess, updateProcess } from "../../../../api/project/project.mutations";
+import { deleteProcess, updateProcess, createEntry } from "../../../../api/project/project.mutations";
 import { EntryList } from "./entry-list-item/entry-list";
 import "./process-item.css";
 
 export function ProcessItem({ process }) {
 
-    const [isDetailsVisible, setDetailsVisible] = useState(false);
+    const [isEntriesVisible, setEntriesVisible] = useState(false);
     const [isInEditMode, setEditMode] = useState(false);
-    const [isEntryCreateFormVisible, setEntryCreateFormVisible] = useState(false);
 
     const [title, setTitle] = useState(process.title);
     const [description, setDescription] = useState(process.description);
@@ -41,6 +40,32 @@ export function ProcessItem({ process }) {
             });
         }
     }, [processToDelete]);
+
+    /**
+     * Create entry
+     */
+
+    const [isEntryCreateFormVisible, setEntryCreateFormVisible] = useState(false);
+
+    const [isCreatedEntrySaved, setCreatedEntrySaved] = useState(false);
+
+    const [entryToCreate, setEntryToCreate] = useState({
+        project: null,
+        process: null,
+        title: null,
+        description: null
+    });
+
+    useEffect(() => {
+        if (isCreatedEntrySaved) {
+            createEntry({
+                ...entryToCreate,
+                project: process.project._id,
+                process: process._id,
+            });
+            setCreatedEntrySaved(false);
+        }
+    }, [isCreatedEntrySaved]);
 
     return <div className="aae-process-item">
 
@@ -78,17 +103,42 @@ export function ProcessItem({ process }) {
 
                 <button onClick={() => { setProcessToDelete(process) }}>Delete</button>
 
-
-                {/* <button onClick={() => { setEntryCreateFormVisible(!isEntryCreateFormVisible) }}>New</button>
-                <button onClick={() => { }}>Delete</button> */}
             </div>
         </div>
 
+        {/* Entry operations - // todo - refactory this component */}
+
         <div className="aae-process-item__entry-events">
-            <button onClick={() => { setDetailsVisible(!isDetailsVisible) }}>Show</button>
+            <button onClick={() => { setEntriesVisible(!isEntriesVisible) }}>Show</button>
+            <button onClick={() => { setEntryCreateFormVisible(true) }}>New Entry</button>
         </div>
 
-        {isDetailsVisible && <EntryList entries={process.entries} />}
+        {isEntryCreateFormVisible && <div className="aae-process-item__new-entry">
+
+            <label>Title</label>
+
+            <input
+                type="text"
+                value={entryToCreate?.title}
+                onChange={(event) => {
+                    setEntryToCreate((entry) => ({ ...entry, title: event.target.value }))
+                }}
+            />
+
+            <label>Description</label>
+
+            <input
+                type="text"
+                value={entryToCreate?.description}
+                onChange={(event) => {
+                    setEntryToCreate((entry) => ({ ...entry, description: event.target.value }))
+                }} />
+
+            <button onClick={() => { setCreatedEntrySaved(true) }}>Save</button>
+
+        </div>}
+
+        {isEntriesVisible && <EntryList entries={process.entries} />}
 
     </div>
 }
