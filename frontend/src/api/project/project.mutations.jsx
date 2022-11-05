@@ -1,6 +1,5 @@
 import { graphqlFetch } from "../graphql-fetch";
 
-
 export const createProject = async (data) => {
 
     const response = await graphqlFetch({
