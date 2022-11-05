@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { projectById } from "../../api/project/project.queries";
 import { ProcessList } from "./update-project/process-list";
 import { ProjectBoard } from "./update-project/project-board";
-import "./update-project/update-project.css"
+import "./update-project/update-project.css";
 
 export function UpdateProject() {
 
