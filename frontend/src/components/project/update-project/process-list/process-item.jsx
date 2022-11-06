@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { deleteProcess, updateProcess, createEntry } from "../../../../api/project/project.mutations";
+import { createEntry } from "../../../../api/project/project.mutations";
+import { deleteProcess, updateProcess } from "../../../../api/project/process.mutations";
 import { EntryList } from "./entry-list-item/entry-list";
 import "./process-item.css";
 

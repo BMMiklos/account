@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react"
-import { createProcess } from "../../../api/project/project.mutations";
-import { processesByProject } from "../../../api/project/project.queries";
+import { createProcess } from "../../../api/project/process.mutations";
+import { processesByProject } from "../../../api/project/process.queries";
 import { ProcessItem } from "./process-list/process-item";
 import "./process-list/process-list.css";
 
