@@ -37,14 +37,15 @@ mongoose.connect('mongodb://172.17.0.1:27017/account', {
 
 const graphqlSchema = new GraphQLSchema({
   query: queryType,
-  mutation: mutationType
+  mutation: mutationType,
+  
 });
 
 app.use(
   "/graphql",
   graphqlHTTP({
     schema: graphqlSchema,
-    graphiql: true,
+    graphiql: true
   })
 );
 
