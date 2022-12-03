@@ -41,12 +41,12 @@ const deleteProcess = {
     }
 };
 
-export const processQueries = {
+export const processQuerySchemas = {
     processById,
     processesByProject
 };
 
-export const processMutations = {
+export const processMutationSchemas = {
     createProcess,
     updateProcess,
     deleteProcess

@@ -16,7 +16,6 @@ const processById = async (args, res) => {
 
 const processesByProject = async (args, res) => {
   try {
-
     let processes = await ProjectModel.findById(args.project).then(async (projectById) => {
       if (projectById) {
         return await ProjectProcessModel.find({

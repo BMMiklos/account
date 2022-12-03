@@ -77,12 +77,12 @@ const moveEntry = {
     }
 };
 
-export const entryQueries = {
+export const entryQuerySchemas = {
     entryById,
     entriesByProcess
 };
 
-export const entryMutations = {
+export const entryMutationSchemas = {
     createEntry,
     updateEntry,
     deleteEntry,

@@ -45,13 +45,13 @@ const deleteProject = {
     },
 };
 
-export const projectQueries = {
+export const projectQuerySchemas = {
     project,
     projectsBySearch,
     projectById
 };
 
-export const projectMutations = {
+export const projectMutationSchemas = {
     createProject,
     updateProject,
     deleteProject
