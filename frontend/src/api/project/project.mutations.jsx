@@ -50,3 +50,19 @@ export const createEntry = async (data) => {
     return await response.json();
 
 };
+
+export const deleteProject = async (id) => {
+
+    const response = await graphqlFetch({
+        operationName: "DeleteProject",
+        query: `mutation DeleteProject($id: ID!) {
+            deleteProject(id: $id)
+            }`,
+        variables: {
+            id
+        }
+    });
+
+    return await response.json();
+
+};

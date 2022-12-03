@@ -1,8 +1,9 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { projectsBySearch } from "../../api/project/project.queries";
+import { deleteProject } from "../../api/project/project.mutations";
 import "./project-table.css";
 import { useNavigate } from "react-router-dom";
+import { formatDate } from "../../helpers/format-date";
 
 export function ProjectTable() {
 
@@ -10,12 +11,22 @@ export function ProjectTable() {
 
     const [queryString, setQueryString] = useState('');
     const [projects, setProjects] = useState([]);
+    const [projectToDelete, setProjectToDelete] = useState();
 
     useEffect(() => {
         projectsBySearch(queryString).then((projectResponse) => {
             setProjects(projectResponse?.data?.projectsBySearch);
         });
     }, [queryString]);
+
+    useEffect(() => {
+        if (projectToDelete) {
+            deleteProject(projectToDelete._id).then(() => {
+                setProjectToDelete();
+                setQueryString();
+            });
+        }
+    }, [projectToDelete]);
 
     return <div style={{
         display: 'flex',
@@ -45,11 +56,11 @@ export function ProjectTable() {
                 {projects.map((project, index) => <tr key={index}>
                     <td>{project.title}</td>
                     <td>{project.description}</td>
-                    <td>{project.createdAt}</td>
-                    <td>{project.updatedAt}</td>
+                    <td>{formatDate(project.createdAt)}</td>
+                    <td>{formatDate(project.updatedAt)}</td>
                     <td>
                         <button onClick={() => { navigate(`/projects/${project._id}`); }} >Update</button>
-                        <button disabled onClick={() => { navigate(); }} >Delete</button>
+                        <button onClick={() => { setProjectToDelete(project) }} >Delete</button>
                     </td>
                 </tr>)}
             </tbody>
