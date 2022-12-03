@@ -41,12 +41,12 @@ const deleteProcess = {
     }
 };
 
-const queries = {
+export const processQueries = {
     processById,
     processesByProject
 };
 
-const mutations = {
+export const processMutations = {
     createProcess,
     updateProcess,
     deleteProcess

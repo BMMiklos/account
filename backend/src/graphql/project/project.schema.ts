@@ -1,8 +1,6 @@
 import { GraphQLList, GraphQLString, GraphQLID, GraphQLNonNull, GraphQLBoolean } from "graphql";
 import { ProjectType, ProjectUpdateInput, ProjectCreateInput } from "./project.type";
 
-// todo - még nincs bekötve, de ez fontos
-
 const project = {
     type: new GraphQLList(ProjectType),
 };
@@ -47,13 +45,13 @@ const deleteProject = {
     },
 };
 
-const queries = {
+export const projectQueries = {
     project,
     projectsBySearch,
     projectById
 };
 
-const mutations = {
+export const projectMutations = {
     createProject,
     updateProject,
     deleteProject

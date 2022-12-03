@@ -1,10 +1,7 @@
 import { GraphQLInputObjectType, GraphQLInt, GraphQLObjectType } from "graphql";
-import entryMutations from "./project/entry/entry.mutations";
-import entryQueries from "./project/entry/entry.queries";
-import processMutations from "./project/process/process.mutations";
-import processQueries from "./project/process/process.queries";
-import projectMutations from "./project/project.mutations";
-import projectQueries from "./project/project.queries";
+import { processQueries, processMutations  } from "./project/process/process.schema";
+import { entryQueries, entryMutations } from "./project/entry/entry.schema";
+import { projectQueries, projectMutations } from "./project/project.schema";
 
 const PaginationInputType = new GraphQLInputObjectType({
   name: "PaginationInput",
@@ -31,5 +28,7 @@ const mutationType = new GraphQLObjectType({
     ...processMutations
   },
 });
+
+export const projectResolvers = {};
 
 export { queryType, mutationType, PaginationInputType };
