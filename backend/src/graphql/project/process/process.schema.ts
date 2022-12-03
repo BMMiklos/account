@@ -8,7 +8,7 @@ import {
   GraphQLString,
 } from "graphql";
 import { EntryType } from "../entry/entry.schema";
-import { ProjectType } from "../project.schema";
+import { ProjectType } from "../project/project.schema";
 
 export const ProcessType = new GraphQLObjectType({
   name: "Process",

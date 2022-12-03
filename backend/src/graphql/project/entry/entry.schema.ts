@@ -1,5 +1,5 @@
 import { GraphQLBoolean, GraphQLID, GraphQLInputObjectType, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
-import { ProjectType } from "../project.schema";
+import { ProjectType } from "../project/project.schema";
 
 export const EntryType = new GraphQLObjectType({
     name: "Entry",

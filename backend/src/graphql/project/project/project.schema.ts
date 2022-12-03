@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLString, GraphQLID, GraphQLNonNull, GraphQLBoolean, GraphQLObjectType, GraphQLInputObjectType } from "graphql";
-import { EntryType } from "./entry/entry.schema";
-import { ProcessType } from "./process/process.schema";
+import { EntryType } from "../entry/entry.schema";
+import { ProcessType } from "../process/process.schema";
 
 export const ProjectType = new GraphQLObjectType({
     name: "Project",

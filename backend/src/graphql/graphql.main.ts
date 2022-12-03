@@ -10,9 +10,9 @@ import {
 import {
   projectQuerySchemas,
   projectMutationSchemas,
-} from "./project/project.schema";
-import projectQueries from "./project/project.queries";
-import projectMutations from "./project/project.mutations";
+} from "./project/project/project.schema";
+import projectQueries from "./project/project/project.queries";
+import projectMutations from "./project/project/project.mutations";
 import entryQueries from "./project/entry/entry.queries";
 import entryMutations from "./project/entry/entry.mutations";
 import processQueries from "./project/process/process.queries";

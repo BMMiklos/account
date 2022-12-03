@@ -1,6 +1,6 @@
 import {
   ProjectModel,
-} from "../../models/project";
+} from "../../../models/project";
 
 const projects = async (args, res) => {
   try {

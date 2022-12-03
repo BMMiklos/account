@@ -3,18 +3,7 @@ import {
   ProjectProcessModel,
   ProjectEntryModel,
   ProjectModel,
-} from "../../models/project";
-import {
-  ProcessCreateInput,
-  ProcessType,
-  ProcessUpdateInput,
-  EntryCreateInput,
-  EntryType,
-  EntryUpdateInput,
-  ProjectCreateInput,
-  ProjectType,
-  ProjectUpdateInput,
-} from "./project.type";
+} from "../../../models/project";
 
 const createProject = async (args, res) => {
   try {
@@ -70,9 +59,9 @@ const deleteProject = async (args, res) => {
 };
 
 const projectMutations = {
-  createProject: createProject,
-  updateProject: updateProject,
-  deleteProject: deleteProject,
+  createProject,
+  updateProject,
+  deleteProject
 };
 
 export default projectMutations;
