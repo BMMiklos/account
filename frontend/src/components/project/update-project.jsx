@@ -10,6 +10,7 @@ export function UpdateProject() {
 
     const params = useParams();
     const [project, setProject] = useState();
+    const [viewType, setViewType] = useState("board");
 
     useEffect(() => {
         if (params.id) {
@@ -24,15 +25,19 @@ export function UpdateProject() {
         <div>
             <h2>{project?.title}</h2>
             <h3>{project?.description} {project?._id}</h3>
+            <div>
+                <button disabled={viewType == "board"} onClick={() => { setViewType("board") }}>Board</button>
+                <button disabled={viewType == "list"} onClick={() => { setViewType("list") }}>List</button>
+            </div>
         </div>
 
-        <div>
-            {/* <ProcessList project={project} /> */}
-        </div>
+        {viewType == "list" && <div>
+            <ProcessList project={project} />
+        </div>}
 
-        <div>
+        {viewType == "board" && <div>
             <ProjectBoard project={project} />
-        </div>
+        </div>}
 
     </div>
 }

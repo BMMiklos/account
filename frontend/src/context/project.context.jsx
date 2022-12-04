@@ -12,12 +12,19 @@ const initialState = {
 const reducer = (state, action) => {
     switch (action.type) {
         case "SET_PROJECT":
+            return { ...state };
             break;
-        case "SET_PROCESS": 
+        case "SET_PROCESS":
+            return { ...state };
             break;
-            default:
-            throw `There is no action called ${actio.type}`;
+        case "SET_ENTRY":
+            return { ...state };
             break;
+        case "SET_ENTRY":
+            return { ...state };
+            break;
+        default:
+            throw `There is no action called ${action.type}`;
     }
 }
 
