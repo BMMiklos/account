@@ -1,0 +1,7 @@
+.aae-project-board__processes {
+    display: flex;
+}
+
+.aae-project-board__process-wrapper {
+    margin-right: 4px;
+}

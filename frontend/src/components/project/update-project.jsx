@@ -27,12 +27,12 @@ export function UpdateProject() {
         </div>
 
         <div>
-            <ProcessList project={project} />
+            {/* <ProcessList project={project} /> */}
         </div>
 
-        {/* <div>
+        <div>
             <ProjectBoard project={project} />
-        </div> */}
+        </div>
 
     </div>
 }
