@@ -5,3 +5,8 @@
     margin-bottom: 12px;
     width: 400px;
 }
+
+.aae-process-card__title {
+    color: black;
+    margin: 4px 0;
+}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { processesByProject } from "../../../api/project/process.queries";
-import { ProcessCard } from "./project-board/process-card/process-card";
+import { ProcessBoardCard } from "./project-board/process-board-card/process-board-card";
 import "./project-board/project-board.css";
 
 export function ProjectBoard({ project }) {
@@ -22,7 +22,7 @@ export function ProjectBoard({ project }) {
         <div className="aae-project-board__processes">
             {processes?.map((process, index) =>
                 <div className="aae-project-board__process-wrapper" key={`${process._id}-${index}`}>
-                    <ProcessCard process={process} />
+                    <ProcessBoardCard process={process} />
                 </div>
             )}
         </div>
