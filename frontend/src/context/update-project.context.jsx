@@ -4,7 +4,9 @@ const ProjectStateContext = createContext();
 const ProjectDispatchContext = createContext();
 
 const initialState = {
-    project: null
+    project: null,
+    process: null,
+    entry: null,
 };
 
 const reducer = (state, action) => {
@@ -14,6 +16,18 @@ const reducer = (state, action) => {
             break;
         case "DELETE_SELECTED_PROJECT":
             return { ...state, project: null };
+            break;
+        case "SET_SELECTED_PROCESS":
+            return { ...state, process: action.payload };
+            break;
+        case "DELETE_SELECTED_PROCESS":
+            return { ...state, process: null };
+            break;
+        case "SET_SELECTED_ENTRY":
+            return { ...state, entry: action.payload };
+            break;
+        case "DELETE_SELECTED_ENTRY":
+            return { ...state, entry: null };
             break;
         default:
             throw `There is no action called ${action.type}`;

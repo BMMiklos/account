@@ -227,7 +227,7 @@ const moveEntry = async (
               });
 
               if (newEntryProcess.project != entry.project) {
-                throw `The two entities are not in the same project!`;
+                // throw `The two entities are not in the same project!`;
               }
 
               if (newEntryProcess) {

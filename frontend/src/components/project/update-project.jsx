@@ -26,6 +26,11 @@ export function UpdateProject() {
         }
     }, [params, updateProjectState]);
 
+    // dev
+    // useEffect(() => {
+    //    console.log(updateProjectState?.entry);
+    // }, [updateProjectState]);
+
     return <div className="aae-update-project">
 
         <div className="aae-update-project__title">
