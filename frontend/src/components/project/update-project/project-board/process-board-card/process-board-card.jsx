@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { deleteProcess } from "../../../../../api/project/process.mutations";
 import { useUpdateProjectDispatch } from "../../../../../context/update-project.context";
 import { EntryBoardItem } from "./entry-board-item/entry-board-item";
+import { EntryCreateForm } from "./entry-create-form/entry-create-form";
 import "./process-board-card.css";
 
 export function ProcessBoardCard({ process }) {
@@ -43,6 +44,10 @@ export function ProcessBoardCard({ process }) {
         {entries?.map((entry, index) => <div key={`${entry._id}-${index}`} className="aae-process-card__entry">
             <EntryBoardItem entry={entry} />
         </div>)}
+
+        <div className="aae-process-card__entry">
+            <EntryCreateForm process={process}/>
+        </div>
 
     </div>
 }

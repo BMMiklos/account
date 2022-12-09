@@ -1,0 +1,20 @@
+.aae-entry-create-form {
+  background-color: rgb(224, 222, 222);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.aae-entry-create-form__show-form {
+  background-color: rgb(238, 236, 236);
+  font-weight: bold;
+  font-size: 12pt;
+  border-radius: 8px;
+  border: none;
+  padding: 4px;
+  display: block;
+  width: 100%;
+}
+
+.aae-entry-create-form__form {
+
+}
