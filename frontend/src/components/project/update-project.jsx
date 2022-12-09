@@ -28,7 +28,7 @@ export function UpdateProject() {
 
     return <div className="aae-update-project">
 
-        <div>
+        <div className="aae-update-project__title">
             <h2>{project?.title}</h2>
             <h3>{project?.description} {project?._id}</h3>
             <div>
@@ -37,11 +37,11 @@ export function UpdateProject() {
             </div>
         </div>
 
-        {viewType == "list" && <div>
+        {viewType == "list" && <div className="aae-update-project__list">
             <ProcessList project={updateProjectState?.project} />
         </div>}
 
-        {viewType == "board" && <div>
+        {viewType == "board" && <div className="aae-update-project__board">
             <ProjectBoard project={updateProjectState?.project} />
         </div>}
 

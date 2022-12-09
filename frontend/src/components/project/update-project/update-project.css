@@ -1,5 +1,18 @@
 .aae-update-project {
-    padding: 8px;
-    height: 100%;
-    overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 8px;
+}
+
+.aae-update-project__title {
+    flex-grow: 0;
+    width: 100%;
+}
+
+.aae-update-project__board {
+  flex-grow: 1;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
 }

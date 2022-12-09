@@ -1,5 +1,6 @@
 .aae-frame {
   position: relative;
+  display: flex;
   flex-wrap: nowrap;
   flex-direction: column;
   height: 100vh;
@@ -21,6 +22,8 @@
   z-index: 20;
   position: relative;
   height: 100%;
+  flex-grow: 1;
+  width: 100%;
   display: flex;
 }
 
@@ -31,7 +34,7 @@
 .aae-frame__content {
   /* the margin from the notification bar */
   margin-top: 22px;
-  height: 100%;
+  height: calc(100% - 22px);
   flex-grow: 1;
-  overflow-y: visible;
+  overflow: hidden;
 }
