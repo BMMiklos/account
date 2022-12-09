@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react"
 import { useParams } from "react-router-dom";
 import { projectById } from "../../api/project/project.queries";
+import { useUpdateProjectState, useUpdateProjectDispatch } from "../../context/update-project.context";
 import { ProcessList } from "./update-project/process-list";
 import { ProjectBoard } from "./update-project/project-board";
 import "./update-project/update-project.css";
@@ -9,16 +10,21 @@ import "./update-project/update-project.css";
 export function UpdateProject() {
 
     const params = useParams();
-    const [project, setProject] = useState();
     const [viewType, setViewType] = useState("board");
 
+    const [project, setProject] = useState();
+
+    const updateProjectState = useUpdateProjectState();
+    const updateProjectDispatch = useUpdateProjectDispatch();
+
     useEffect(() => {
-        if (params.id) {
+        if (!updateProjectState?.project && params.id) {
             projectById(params.id).then((projectResponse) => {
                 setProject(projectResponse?.data?.projectById);
+                updateProjectDispatch({ type: "SET_SELECTED_PROJECT", payload: projectResponse?.data?.projectById });
             });
         }
-    }, [params]);
+    }, [params, updateProjectState]);
 
     return <div className="aae-update-project">
 
@@ -32,11 +38,11 @@ export function UpdateProject() {
         </div>
 
         {viewType == "list" && <div>
-            <ProcessList project={project} />
+            <ProcessList project={updateProjectState?.project} />
         </div>}
 
         {viewType == "board" && <div>
-            <ProjectBoard project={project} />
+            <ProjectBoard project={updateProjectState?.project} />
         </div>}
 
     </div>

@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { createProcess } from "../../../../../../api/project/process.mutations";
+import { useUpdateProjectDispatch } from "../../../../../../context/update-project.context";
 
 export function ProcessCreateForm({ project }) {
+
+    const updateProjectDispatch = useUpdateProjectDispatch();
 
     /**
      * Process creation
@@ -22,6 +25,7 @@ export function ProcessCreateForm({ project }) {
             }).then((createdProcessResponse) => {
                 if (createdProcessResponse?.data?.createProcess) {
                     setProcessDataToCreate({ title: null, description: null });
+                    updateProjectDispatch({ type: "DELETE_SELECTED_PROJECT" });
                 }
             });
             setSaved(false);

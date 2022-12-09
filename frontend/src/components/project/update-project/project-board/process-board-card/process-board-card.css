@@ -6,7 +6,16 @@
     width: 400px;
 }
 
+.aae-process-card__settings {
+    display: flex;
+}
+
 .aae-process-card__title {
     color: black;
     margin: 4px 0;
+    flex-grow: 1;
+}
+
+.aae-process-card__delete-button {
+    align-self: center;
 }

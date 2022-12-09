@@ -4,31 +4,23 @@ const ProjectStateContext = createContext();
 const ProjectDispatchContext = createContext();
 
 const initialState = {
-    project: null,
-    process: null,
-    entry: null,
+    project: null
 };
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case "SET_PROJECT":
-            return { ...state };
+        case "SET_SELECTED_PROJECT":
+            return { ...state, project: action.payload };
             break;
-        case "SET_PROCESS":
-            return { ...state };
-            break;
-        case "SET_ENTRY":
-            return { ...state };
-            break;
-        case "SET_ENTRY":
-            return { ...state };
+        case "DELETE_SELECTED_PROJECT":
+            return { ...state, project: null };
             break;
         default:
             throw `There is no action called ${action.type}`;
     }
 }
 
-export const ProjectProvider = ({ children }) => {
+export const UpdateProjectProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer);
     return <ProjectStateContext.Provider value={state}>
         <ProjectDispatchContext.Provider value={dispatch}>
@@ -37,5 +29,5 @@ export const ProjectProvider = ({ children }) => {
     </ProjectStateContext.Provider>
 }
 
-export const useProjectState = () => useContext(ProjectStateContext);
-export const useProjectDispatch = () => useContext(ProjectDispatchContext);
+export const useUpdateProjectState = () => useContext(ProjectStateContext);
+export const useUpdateProjectDispatch = () => useContext(ProjectDispatchContext);
