@@ -1,0 +1,23 @@
+.aae-project-board-process-create {
+    background-color: rgb(238, 236, 236);
+    border-radius: 8px;
+    padding: 8px;
+    width: 400px;
+}
+
+.aae-project-board-process-create__craete-button {
+    border: 2px solid rgb(224, 222, 222);
+    border-radius: 8px;
+    display: block;
+    padding: 10px 2px;
+    margin: 0;
+    width: 100%;
+}
+
+.aae-project-board-process-create__form-wrapper {
+
+}
+
+.aae-project-board-process-create__form-close-button {
+
+}
