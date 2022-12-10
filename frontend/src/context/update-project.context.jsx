@@ -5,17 +5,17 @@ const ProjectDispatchContext = createContext();
 
 const initialState = {
     selectedProject: null,
-    selectedProcess: null,
+    selectedProcesses: null,
     selectedEntry: null,
 
-    entryDragAndDropSettings: {
+    entryMoveSettings: {
         project: null,
         process: null,
         entry: null,
         index: null
     },
 
-    processDragAndDropSettings: {
+    processMoveSettings: {
         project: null,
         process: null,
         index: null
@@ -30,11 +30,11 @@ const reducer = (state, action) => {
         case "FORGET_SELECTED_PROJECT":
             return { ...state, selectedProject: null };
             break;
-        case "SET_SELECTED_PROCESS":
-            return { ...state, selectedProcess: action.payload };
+        case "SET_SELECTED_PROCESSES":
+            return { ...state, selectedProcesses: action.payload };
             break;
-        case "FORGET_SELECTED_PROCESS":
-            return { ...state, selectedProcess: null };
+        case "FORGET_SELECTED_PROCESSES":
+            return { ...state, selectedProcesses: null };
             break;
         case "SET_SELECTED_ENTRY":
             return { ...state, selectedEntry: action.payload };
@@ -44,13 +44,13 @@ const reducer = (state, action) => {
             break;
         case "SET_ENTRY_MOVE_SETTINGS":
             return {
-                ...state, entryDragAndDropSettings: {
-                    ...state.entryDragAndDropSettings,
+                ...state, entryMoveSettings: {
+                    ...state.entryMoveSettings,
                     ...action.payload,
                 }
             };
         case "FORGET_ENTRY_MOVE_SETTINGS":
-            return { ...state, entryDragAndDropSettings: initialState.entryDragAndDropSettings };
+            return { ...state, entryMoveSettings: initialState.entryMoveSettings };
         case "RESET":
             return { ...initialState }
         default:

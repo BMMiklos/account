@@ -1,22 +1,27 @@
 import { useState, useEffect } from "react";
 import { processesByProject } from "../../../api/project/process.queries";
+import { useUpdateProjectDispatch, useUpdateProjectState } from "../../../context/update-project.context";
 import { ProcessBoardCard } from "./project-board/process-board-card/process-board-card";
 import { ProjectBoardProcessCreate } from "./project-board/project-board-process-create/project-board-process-create";
 import "./project-board/project-board.css";
 
 export function ProjectBoard({ project }) {
 
+    const updateProjectState = useUpdateProjectState();
+    const updateProjectDispatch = useUpdateProjectDispatch();
+
     const [processes, setProcesses] = useState([]);
 
     useEffect(() => {
-        if (project) {
+        if (!updateProjectState?.selectedProcesses && project) {
             processesByProject(project._id).then((processes) => {
                 if (processes?.data?.processesByProject) {
                     setProcesses(processes.data.processesByProject);
+                    updateProjectDispatch({ type: "SET_SELECTED_PROCESSES", payload: processes.data.processesByProject });
                 }
             });
         }
-    }, [project]);
+    }, [project, updateProjectState]);
 
     return <div className="aae-project-board">
 
