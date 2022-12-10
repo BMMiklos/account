@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+import { useDebugValue } from "react";
 import { useState, useEffect } from "react";
 import { moveEntry } from "../../../../../api/project/entry.mutations";
 import { deleteProcess } from "../../../../../api/project/process.mutations";
@@ -30,7 +32,7 @@ export function ProcessBoardCard({ process }) {
             deleteProcess(processToDelete._id).then((deleteProcessResponse) => {
                 if (deleteProcessResponse?.data?.deleteProcess) {
                     setProcessToDelete(null);
-                    updateProjectDispatch({ type: "FORGET_SELECTED_PROCESSES" });
+                    updateProjectDispatch({ type: "FORGET_SELECTED_PROJECT" });
                 }
             });
         }
@@ -41,14 +43,14 @@ export function ProcessBoardCard({ process }) {
      */
 
     const executeMoveEntry = () => {
-        if (updateProjectState?.entryMoveSettings) {
+        if (updateProjectState?.entryDragAndDropSettings) {
             moveEntry({
                 project: process?.project?._id,
-                process: updateProjectState?.entryMoveSettings?.process?._id,
-                entry: updateProjectState?.entryMoveSettings?.entry?._id,
-                index: updateProjectState?.entryMoveSettings?.index,
+                process: updateProjectState?.entryDragAndDropSettings?.process?._id,
+                entry: updateProjectState?.entryDragAndDropSettings?.entry?._id,
+                index: updateProjectState?.entryDragAndDropSettings?.index,
             }).then(() => {
-                updateProjectDispatch({ type: "FORGET_SELECTED_PROCESSES" });
+                updateProjectDispatch({ type: "FORGET_SELECTED_PROJECT" }); // todo - do not update the whole object
             })
         }
     };
@@ -66,7 +68,7 @@ export function ProcessBoardCard({ process }) {
         className="aae-process-card">
 
         <div className="aae-process-card__settings">
-            <h3 className="aae-process-card__title">{process.title}</h3>
+            <h3 className="aae-process-card__title">{process.title} {process._id}</h3>
             <button onClick={() => { setProcessToDelete(process) }} className="aae-process-card__delete-button">Delete</button>
         </div>
 
