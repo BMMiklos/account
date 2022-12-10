@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+import { useDebugValue } from "react";
 import { useState, useEffect } from "react";
 import { moveEntry } from "../../../../../api/project/entry.mutations";
 import { deleteProcess } from "../../../../../api/project/process.mutations";
@@ -30,7 +32,7 @@ export function ProcessBoardCard({ process }) {
             deleteProcess(processToDelete._id).then((deleteProcessResponse) => {
                 if (deleteProcessResponse?.data?.deleteProcess) {
                     setProcessToDelete(null);
-                    updateProjectDispatch({ type: "DELETE_SELECTED_PROJECT" });
+                    updateProjectDispatch({ type: "FORGET_SELECTED_PROJECT" });
                 }
             });
         }
@@ -40,47 +42,41 @@ export function ProcessBoardCard({ process }) {
      * Move entry with drag and drop
      */
 
-    const [entryDataToMove, setEntryDataToMove] = useState();
-    const [entryDataIndex, setEntryDataIndex] = useState(0);
-    const [isMouseReleased, setMouseReleased] = useState(false);
-
-    // Execute the drag and drop changes, if the user releases the mouse
-
-    // useEffect(() => {
-    //     if (isMouseReleased && entryDataToMove) {
-    //         moveEntry(entryDataToMove).then((data) => {
-    //             setEntryDataToMove();
-    //             updateProjectDispatch({ type: "DELETE_SELECTED_PROJECT" });
-    //             setMouseReleased(false);
-    //         });
-    //     }
-    // }, [isMouseReleased]);
+    const executeMoveEntry = () => {
+        if (updateProjectState?.entryDragAndDropSettings) {
+            moveEntry({
+                project: process?.project?._id,
+                process: updateProjectState?.entryDragAndDropSettings?.process?._id,
+                entry: updateProjectState?.entryDragAndDropSettings?.entry?._id,
+                index: updateProjectState?.entryDragAndDropSettings?.index,
+            }).then(() => {
+                updateProjectDispatch({ type: "FORGET_SELECTED_PROJECT" }); // todo - do not update the whole object
+            })
+        }
+    };
 
     return <div
 
-        onDragEnter={() => {
-            setEntryDataToMove({
-                project: process?.project?._id,
-                process: process?._id,
-                index: entryDataIndex,
-                entry: updateProjectState?.entry?._id
-            });
+        onDragEnter={() => { 
+            updateProjectDispatch({ type: "SET_ENTRY_MOVE_SETTINGS", payload: { process: process } })
         }}
 
         onDragEnd={() => {
-            setMouseReleased(true);
+            executeMoveEntry();
         }}
 
         className="aae-process-card">
 
         <div className="aae-process-card__settings">
-            <h3 className="aae-process-card__title">{process.title}</h3>
+            <h3 className="aae-process-card__title">{process.title} {process._id}</h3>
             <button onClick={() => { setProcessToDelete(process) }} className="aae-process-card__delete-button">Delete</button>
         </div>
 
         {entries?.map((entry, index) => <div
             key={`${entry._id}-${index}`}
-            onDragEnter={() => { setEntryDataIndex(index + 1) }}
+            onDragEnter={() => { 
+                updateProjectDispatch({ type: "SET_ENTRY_MOVE_SETTINGS", payload: { index: index + 1 } })
+            }}
             className="aae-process-card__entry">
             <EntryBoardItem entry={entry} />
         </div>)}

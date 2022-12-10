@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useEffect } from "react"
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { projectById } from "../../api/project/project.queries";
 import { useUpdateProjectState, useUpdateProjectDispatch } from "../../context/update-project.context";
@@ -18,18 +17,13 @@ export function UpdateProject() {
     const updateProjectDispatch = useUpdateProjectDispatch();
 
     useEffect(() => {
-        if (!updateProjectState?.project && params.id) {
+        if (!updateProjectState?.selectedProject && params.id) {
             projectById(params.id).then((projectResponse) => {
                 setProject(projectResponse?.data?.projectById);
                 updateProjectDispatch({ type: "SET_SELECTED_PROJECT", payload: projectResponse?.data?.projectById });
             });
         }
     }, [params, updateProjectState]);
-
-    // dev
-    // useEffect(() => {
-    //    console.log(updateProjectState?.entry);
-    // }, [updateProjectState]);
 
     return <div className="aae-update-project">
 
@@ -43,11 +37,11 @@ export function UpdateProject() {
         </div>
 
         {viewType == "list" && <div className="aae-update-project__list">
-            <ProcessList project={updateProjectState?.project} />
+            <ProcessList project={updateProjectState?.selectedProject} />
         </div>}
 
         {viewType == "board" && <div className="aae-update-project__board">
-            <ProjectBoard project={updateProjectState?.project} />
+            <ProjectBoard project={updateProjectState?.selectedProject} />
         </div>}
 
     </div>

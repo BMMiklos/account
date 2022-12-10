@@ -5,7 +5,10 @@ export function EntryBoardItem({ entry }) {
 
     const updateProjectDispatch = useUpdateProjectDispatch();
 
-    return <div draggable onDragStart={(event) => { updateProjectDispatch({ type: "SET_SELECTED_ENTRY", payload: entry }) }} className="aae-entry-board-item">
+    return <div
+        draggable
+        onDragStart={(event) => { updateProjectDispatch({ type: "SET_ENTRY_MOVE_SETTINGS", payload: { entry } }) }}
+        className="aae-entry-board-item">
         {entry.title}
     </div>
 }
