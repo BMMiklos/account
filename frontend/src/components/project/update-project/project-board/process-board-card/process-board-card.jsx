@@ -68,7 +68,7 @@ export function ProcessBoardCard({ process }) {
         className="aae-process-card">
 
         <div className="aae-process-card__settings">
-            <h3 className="aae-process-card__title">{process.title} {process._id}</h3>
+            <h3 className="aae-process-card__title">{process.title}</h3>
             <button onClick={() => { setProcessToDelete(process) }} className="aae-process-card__delete-button">Delete</button>
         </div>
 
