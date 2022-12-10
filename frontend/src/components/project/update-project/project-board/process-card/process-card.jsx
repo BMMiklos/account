@@ -41,13 +41,14 @@ export function ProcessCard({ process }) {
      */
 
     const executeMoveEntry = () => {
-        if (updateProjectState?.entryDragAndDropSettings) {
+        if (updateProjectState?.entryDragAndDropSettings?.entry) {
             moveEntry({
                 project: process?.project?._id,
                 process: updateProjectState?.entryDragAndDropSettings?.process?._id,
                 entry: updateProjectState?.entryDragAndDropSettings?.entry?._id,
                 index: updateProjectState?.entryDragAndDropSettings?.index,
             }).then(() => {
+                updateProjectDispatch({ type: "FORGET_ENTRY_MOVE_SETTINGS" });
                 updateProjectDispatch({ type: "FORGET_PROCESSES_TO_RENDER" });
             })
         }
@@ -55,7 +56,11 @@ export function ProcessCard({ process }) {
 
     return <div
 
-        onDragEnter={() => { 
+        draggable
+
+        onDragStart={(event) => { updateProjectDispatch({ type: "SET_PROCESS_MOVE_SETTINGS", payload: { process } }) }}
+
+        onDragEnter={() => {
             updateProjectDispatch({ type: "SET_ENTRY_MOVE_SETTINGS", payload: { process: process } })
         }}
 
@@ -72,7 +77,7 @@ export function ProcessCard({ process }) {
 
         {entries?.map((entry, index) => <div
             key={`${entry._id}-${index}`}
-            onDragEnter={() => { 
+            onDragEnter={() => {
                 updateProjectDispatch({ type: "SET_ENTRY_MOVE_SETTINGS", payload: { index: index + 1 } })
             }}
             className="aae-process-card__entry">

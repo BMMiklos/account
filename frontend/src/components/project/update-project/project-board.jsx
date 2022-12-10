@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { moveProcess } from "../../../api/project/process.mutations";
 import { processesByProject } from "../../../api/project/process.queries";
 import { useUpdateProjectState, useUpdateProjectDispatch } from "../../../context/update-project.context";
 import { ProcessCard } from "./project-board/process-card/process-card";
 import { ProjectBoardProcessCreate } from "./project-board/project-board-process-create/project-board-process-create";
 import "./project-board/project-board.css";
-
 
 export function ProjectBoard({ project }) {
 
@@ -18,11 +18,27 @@ export function ProjectBoard({ project }) {
             processesByProject(project._id).then((processes) => {
                 if (processes?.data?.processesByProject) {
                     setProcesses(processes.data.processesByProject);
-                    updateProjectDispatch({ type: "SET_PROCESSES_TO_RENDER", payload:  processes.data.processesByProject})
+                    updateProjectDispatch({ type: "SET_PROCESSES_TO_RENDER", payload: processes.data.processesByProject })
                 }
             });
         }
     }, [project, updateProjectState]);
+
+    /**
+     * Move process
+     */
+
+    const executeMoveProcess = () => {
+        if (updateProjectState?.processDragAndDropSettings?.process) {
+            moveProcess({
+                project: project?._id,
+                process: updateProjectState?.processDragAndDropSettings?.process?._id,
+                index: updateProjectState?.processDragAndDropSettings?.index
+            }).then(() => {
+                updateProjectDispatch({ type: "FORGET_PROCESSES_TO_RENDER" });
+            })
+        }
+    };
 
     return <div className="aae-project-board">
 
@@ -33,7 +49,11 @@ export function ProjectBoard({ project }) {
             </div>
 
             {processes?.map((process, index) =>
-                <div className="aae-project-board__process-wrapper" key={`${process._id}-${index}`}>
+                <div
+                    className="aae-project-board__process-wrapper"
+                    onDragEnter={(event) => { updateProjectDispatch({ type: "SET_PROCESS_MOVE_SETTINGS", payload: { index } }) }}
+                    onDragEnd={() => { executeMoveProcess() }}
+                    key={`${process._id}-${index}`}>
                     <ProcessCard process={process} />
                 </div>
             )}

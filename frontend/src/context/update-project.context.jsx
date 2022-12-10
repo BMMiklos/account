@@ -59,6 +59,19 @@ const reducer = (state, action) => {
             };
         case "FORGET_ENTRY_MOVE_SETTINGS":
             return { ...state, entryDragAndDropSettings: initialState.entryDragAndDropSettings };
+
+
+        case "SET_PROCESS_MOVE_SETTINGS":
+            return {
+                ...state, processDragAndDropSettings: {
+                    ...state.processDragAndDropSettings,
+                    ...action.payload,
+                }
+            };
+        case "FORGET_PROCESS_MOVE_SETTINGS":
+            return { ...state, processDragAndDropSettings: initialState.processDragAndDropSettings };
+
+
         case "CLEAR_ALL":
             return { ...initialState }
         default:
