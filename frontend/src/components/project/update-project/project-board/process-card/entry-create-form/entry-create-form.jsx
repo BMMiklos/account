@@ -31,7 +31,7 @@ export function EntryCreateForm({ process }) {
                     setEntryDataToCreate();
                     setSaved(false);
                     setCreateFormVisible(false);
-                    updateProjectDispatch({ type: "FORGET_SELECTED_PROJECT" });
+                    updateProjectDispatch({ type: "FORGET_PROCESSES_TO_RENDER" });
                 }
             });
         }

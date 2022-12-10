@@ -5,18 +5,18 @@ const ProjectDispatchContext = createContext();
 
 const initialState = {
     selectedProject: null,
-    selectedProcess: null,
-    selectedEntry: null,
+    selectedProcess: null, // not used
+    selectedEntry: null, // not used
+
+    processesToRender: null,
 
     entryDragAndDropSettings: {
-        project: null,
         process: null,
         entry: null,
         index: null
     },
 
     processDragAndDropSettings: {
-        project: null,
         process: null,
         index: null
     }
@@ -42,6 +42,14 @@ const reducer = (state, action) => {
         case "FORGET_SELECTED_ENTRY":
             return { ...state, selectedEntry: null };
             break;
+
+        case "SET_PROCESSES_TO_RENDER":
+            return { ...state, processesToRender: action.payload };
+            break;
+        case "FORGET_PROCESSES_TO_RENDER":
+            return { ...state, processesToRender: null };
+            break;
+
         case "SET_ENTRY_MOVE_SETTINGS":
             return {
                 ...state, entryDragAndDropSettings: {
@@ -51,7 +59,7 @@ const reducer = (state, action) => {
             };
         case "FORGET_ENTRY_MOVE_SETTINGS":
             return { ...state, entryDragAndDropSettings: initialState.entryDragAndDropSettings };
-        case "RESET":
+        case "CLEAR_ALL":
             return { ...initialState }
         default:
             throw `There is no action called ${action.type}`;

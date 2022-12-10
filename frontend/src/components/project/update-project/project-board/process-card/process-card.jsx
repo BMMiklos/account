@@ -30,7 +30,7 @@ export function ProcessCard({ process }) {
             deleteProcess(processToDelete._id).then((deleteProcessResponse) => {
                 if (deleteProcessResponse?.data?.deleteProcess) {
                     setProcessToDelete(null);
-                    updateProjectDispatch({ type: "FORGET_SELECTED_PROJECT" });
+                    updateProjectDispatch({ type: "FORGET_PROCESSES_TO_RENDER" });
                 }
             });
         }
@@ -48,7 +48,7 @@ export function ProcessCard({ process }) {
                 entry: updateProjectState?.entryDragAndDropSettings?.entry?._id,
                 index: updateProjectState?.entryDragAndDropSettings?.index,
             }).then(() => {
-                updateProjectDispatch({ type: "FORGET_SELECTED_PROJECT" }); // todo - do not update the whole object
+                updateProjectDispatch({ type: "FORGET_PROCESSES_TO_RENDER" });
             })
         }
     };

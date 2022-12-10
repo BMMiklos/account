@@ -25,7 +25,7 @@ export function ProcessCreateForm({ project }) {
             }).then((createdProcessResponse) => {
                 if (createdProcessResponse?.data?.createProcess) {
                     setProcessDataToCreate({ title: null, description: null });
-                    updateProjectDispatch({ type: "FORGET_SELECTED_PROJECT" });
+                    updateProjectDispatch({ type: "FORGET_PROCESSES_TO_RENDER" });
                 }
             });
             setSaved(false);
