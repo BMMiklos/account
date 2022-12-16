@@ -42,12 +42,16 @@ export function EntryCreateForm({ process }) {
         {!isCreateFormVisible && <button onClick={() => { setCreateFormVisible(true) }} className="aae-entry-create-form__show-form">+</button>}
 
         {isCreateFormVisible && <div className="aae-entry-create-form__form">
-            <label>Title</label>
-            <input type="text" value={isCreateFormVisible.title} onChange={(event) => { setEntryDataToCreate(entryData => ({ ...entryData, title: event.target.value })) }} />
-            <label>Description</label>
-            <input type="text" value={isCreateFormVisible.description} onChange={(event) => { setEntryDataToCreate(entryData => ({ ...entryData, description: event.target.value })) }} />
-            <button onClick={() => { setSaved(true) }}>Save</button>
-            <button onClick={() => { setCreateFormVisible(false) }}>Close</button>
+            <div className="aae-entry-create-form__input-wrapper">
+                <label className="aae-entry-create-form__label">Title</label>
+                <input className="aae-entry-create-form__input" type="text" value={isCreateFormVisible.title} onChange={(event) => { setEntryDataToCreate(entryData => ({ ...entryData, title: event.target.value })) }} />
+            </div>
+            <div className="aae-entry-create-form__input-wrapper">
+            <label className="aae-entry-create-form__label">Description</label>
+                <textarea className="aae-entry-create-form__textarea" rows={4} value={isCreateFormVisible.description} onChange={(event) => { setEntryDataToCreate(entryData => ({ ...entryData, description: event.target.value })) }} />
+            </div>
+            <button className="aae-entry-create-form__button aae-entry-create-form__button--save" onClick={() => { setSaved(true) }}>Save</button>
+            <button className="aae-entry-create-form__button aae-entry-create-form__button--close" onClick={() => { setCreateFormVisible(false) }}>Close</button>
         </div>}
 
     </div>
