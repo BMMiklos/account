@@ -23,7 +23,7 @@ export function ProjectTable() {
         if (projectToDelete) {
             deleteProject(projectToDelete._id).then(() => {
                 setProjectToDelete();
-                setQueryString();
+                setQueryString('');
             });
         }
     }, [projectToDelete]);
@@ -35,24 +35,28 @@ export function ProjectTable() {
         flexDirection: 'column',
     }}>
 
-        <div>
+        <div className="aae-project-table__header">
+            <h3 className="aae-project-table__title">
+                # Projects
+            </h3>
             <input
+                className="aae-project-table__search-input"
                 type="text"
                 placeholder="Search"
                 onChange={(event) => { setQueryString(event.target.value) }} />
         </div>
 
-        <table className="aae-table">
+        <table className="aae-project-table">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Description</th>
                     <th>UpdatedAt</th>
-                    <th>CreaedAt</th>
+                    <th>CreatedAt</th>
                     <th>Operations</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="aae-project-table__body">
                 {projects.map((project, index) => <tr key={index}>
                     <td>{project.title}</td>
                     <td>{project.description}</td>

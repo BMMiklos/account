@@ -33,20 +33,29 @@ export function ProcessCreateForm({ project }) {
     }, [isSaved]);
 
     return <div className="aae-process-create-form">
-        <label>Title</label>
-        <input
-            type="text"
-            value={processDataToCreate.title}
-            onChange={(event) => {
-                setProcessDataToCreate((processData) => ({ ...processData, title: event.target.value }))
-            }} />
-        <label>Description</label>
-        <input
-            type="text"
-            value={processDataToCreate.descrition}
-            onChange={(event) => {
-                setProcessDataToCreate((processData) => ({ ...processData, description: event.target.value }))
-            }} />
+
+        <div className="aae-process-create-form__input-wrapper">
+            <label className="aae-process-create-form__label">Title</label>
+            <input
+                className="aae-process-create-form__input"
+                type="text"
+                value={processDataToCreate.title}
+                onChange={(event) => {
+                    setProcessDataToCreate((processData) => ({ ...processData, title: event.target.value }))
+                }} />
+        </div>
+
+        <div className="aae-process-create-form__input-wrapper">
+            <label className="aae-process-create-form__label">Description</label>
+            <textarea
+                className="aae-process-create-form__input"
+                type="textarea"
+                rows="4"
+                value={processDataToCreate.descrition}
+                onChange={(event) => {
+                    setProcessDataToCreate((processData) => ({ ...processData, description: event.target.value }))
+                }} />
+        </div>
         <button onClick={() => { setSaved(true) }}>Create</button>
     </div>
 }

@@ -1,3 +1,45 @@
-.aae-table {
+.aae-project-table__header {
+    padding: 8px;
+}
+
+.aae-project-table__title {
+    font-size: 20px;
+    margin: 8px 0;
+}
+
+.aae-project-table__search-input {
+    border-radius: 40px;
+    border-color: gainsboro;
+    border-style: solid;
+    font-size: 14px;
+    padding: 2px 12px;
+}
+
+/*
+.aae-project-table {
+    background-color: rgb(238, 236, 236);
+    border-collapse: collapse;
+    padding: 8px;
     width: 100%;
 }
+
+.aae-project-table thead tr th {
+    border-radius: 20px;
+}
+
+.aae-project-table tbody tr td {
+    background-color: rgb(224, 222, 222);
+    padding: 2px 8px;
+    margin-bottom: 10px;
+}
+
+.aae-project-table tbody tr td:first-child {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.aae-project-table tbody tr td:last-child {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+*/
