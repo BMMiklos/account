@@ -78,7 +78,7 @@ export function ProcessCard({ process }) {
         {entries?.map((entry, index) => <div
             key={`${entry._id}-${index}`}
             onDragEnter={() => {
-                updateProjectDispatch({ type: "SET_ENTRY_MOVE_SETTINGS", payload: { index: index + 1 } })
+                updateProjectDispatch({ type: "SET_ENTRY_MOVE_SETTINGS", payload: { index: index } })
             }}
             className="aae-process-card__entry">
             <EntryBoardItem entry={entry} />

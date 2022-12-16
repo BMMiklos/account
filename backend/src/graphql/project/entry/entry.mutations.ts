@@ -247,7 +247,7 @@ const moveEntry = async (
 
                 // removes duplicates, and inserts the new element in order
                 let newProcessEntries = newEntryProcess.entries.filter((entryFromProcessarray) => !entryFromProcessarray.equals(entry._id));
-                newProcessEntries.splice(newProcessEntries.length, 0, entryId);
+                newProcessEntries.splice(entryIndex, 0, entry);
 
                 await ProjectProcessModel.updateOne(
                   {
