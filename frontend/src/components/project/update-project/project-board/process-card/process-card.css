@@ -18,4 +18,15 @@
 
 .aae-process-card__delete-button {
     align-self: center;
-}
+    background-color: rgb(224, 222, 222);
+    padding: 2px 20px;
+    border: 0;
+    border-radius: 50px;
+    font-size: 16px;
+  }
+  
+  .aae-process-card__delete-button:not(:disabled):hover {
+    border: 1px solid rgb(224, 222, 222);
+    padding: 0px 19px;
+  }
+  
