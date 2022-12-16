@@ -29,12 +29,13 @@ export function ProjectBoard({ project }) {
      */
 
     const executeMoveProcess = () => {
-        if (updateProjectState?.processDragAndDropSettings?.process) {
+        if (updateProjectState?.processDragAndDropSettings?.process && !updateProjectState?.entryDragAndDropSettings?.entry) {
             moveProcess({
                 project: project?._id,
                 process: updateProjectState?.processDragAndDropSettings?.process?._id,
                 index: updateProjectState?.processDragAndDropSettings?.index
             }).then(() => {
+                updateProjectDispatch({ type: "FORGET_ENTRY_MOVE_SETTINGS" });
                 updateProjectDispatch({ type: "FORGET_PROCESSES_TO_RENDER" });
             })
         }

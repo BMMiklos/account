@@ -7,7 +7,7 @@ export function EntryBoardItem({ entry }) {
 
     return <div
         draggable
-        onDragStart={(event) => {  updateProjectDispatch({ type: "SET_ENTRY_MOVE_SETTINGS", payload: { entry } }) }}
+        onDragStart={(event) => { updateProjectDispatch({ type: "SET_ENTRY_MOVE_SETTINGS", payload: { entry } }) }}
         className="aae-entry-board-item">
         {entry.title}
     </div>
