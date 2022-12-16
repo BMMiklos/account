@@ -29,10 +29,10 @@ export function UpdateProject() {
 
         <div className="aae-update-project__title">
             <h2>{project?.title}</h2>
-            <h3>{project?.description} {project?._id}</h3>
+            <h3>{project?.description}</h3>
             <div>
-                <button disabled={viewType == "board"} onClick={() => { setViewType("board") }}>Board</button>
-                <button disabled={viewType == "list"} onClick={() => { setViewType("list") }}>List</button>
+                <button class="aae-update-project__view-button" disabled={viewType == "board"} onClick={() => { setViewType("board") }}>Board</button>
+                <button class="aae-update-project__view-button" disabled={viewType == "list"} onClick={() => { setViewType("list") }}>List</button>
             </div>
         </div>
 
