@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { createProcess } from "../../../../../../api/project/process.mutations";
 import { useUpdateProjectDispatch } from "../../../../../../context/update-project.context";
+import "./process-create-form.css";
 
 export function ProcessCreateForm({ project }) {
 
@@ -56,6 +57,6 @@ export function ProcessCreateForm({ project }) {
                     setProcessDataToCreate((processData) => ({ ...processData, description: event.target.value }))
                 }} />
         </div>
-        <button onClick={() => { setSaved(true) }}>Create</button>
+        <button className="aae-process-create-form__create-button" onClick={() => { setSaved(true) }}>Create</button>
     </div>
 }
