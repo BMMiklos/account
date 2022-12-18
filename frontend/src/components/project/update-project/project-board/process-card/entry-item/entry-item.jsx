@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useUpdateProjectDispatch } from "../../../../../../context/update-project.context";
-import "./entry-board-item.css";
+import "./entry-item.css";
 
-export function EntryBoardItem({ entry }) {
+export function EntryItem({ entry }) {
 
     const updateProjectDispatch = useUpdateProjectDispatch();
 
@@ -11,13 +11,13 @@ export function EntryBoardItem({ entry }) {
     return <div
         draggable
         onDragStart={(event) => { updateProjectDispatch({ type: "SET_ENTRY_MOVE_SETTINGS", payload: { entry } }) }}
-        className="aae-entry-board-item">
+        className="aae-entry-item">
 
-        <div className="aae-entry-board-item__header">
-            <div className="aae-entry-board-item__title">{entry?.title}</div>
-            <button className="aae-entry-board-item__view-button"
+        <div className="aae-entry-item__header">
+            <div className="aae-entry-item__title">{entry?.title}</div>
+            <button className="aae-entry-item__view-button"
             onClick={() => { setDescriptionVisible(!isDescriptionVisible) }}></button>
         </div>
-        {isDescriptionVisible && <div className="aae-entry-board-item__description">{entry?.description}</div>}
+        {isDescriptionVisible && <div className="aae-entry-item__description">{entry?.description}</div>}
     </div>
 }

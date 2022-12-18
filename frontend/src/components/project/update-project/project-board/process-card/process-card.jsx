@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { moveEntry } from "../../../../../api/project/entry.mutations";
 import { deleteProcess } from "../../../../../api/project/process.mutations";
 import { useUpdateProjectState, useUpdateProjectDispatch } from "../../../../../context/update-project.context";
-import { EntryBoardItem } from "./entry-board-item/entry-board-item";
+import { EntryItem } from "./entry-item/entry-item";
 import { EntryCreateForm } from "./entry-create-form/entry-create-form";
 import "./process-card.css";
 
@@ -81,7 +81,7 @@ export function ProcessCard({ process }) {
                 updateProjectDispatch({ type: "SET_ENTRY_MOVE_SETTINGS", payload: { index: index } })
             }}
             className="aae-process-card__entry">
-            <EntryBoardItem entry={entry} />
+            <EntryItem entry={entry} />
         </div>)}
 
         <div className="aae-process-card__entry">
