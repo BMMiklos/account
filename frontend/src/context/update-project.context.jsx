@@ -77,7 +77,7 @@ const reducer = (state, action) => {
         default:
             throw `There is no action called ${action.type}`;
     }
-}
+};
 
 export const UpdateProjectProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -86,7 +86,7 @@ export const UpdateProjectProvider = ({ children }) => {
             {children}
         </ProjectDispatchContext.Provider>
     </ProjectStateContext.Provider>
-}
+};
 
 export const useUpdateProjectState = () => useContext(ProjectStateContext);
 export const useUpdateProjectDispatch = () => useContext(ProjectDispatchContext);
