@@ -42,8 +42,8 @@ services:
   nginx:
     image: nginx
     volumes:
-    - ./conf.d:/etc/nginx/conf.d
-    - ./html:/html
+    - .nginx/conf.d:/etc/nginx/conf.d
+    - .nginx/html:/html
     ports:
     - "8080:8080"
     environment:
