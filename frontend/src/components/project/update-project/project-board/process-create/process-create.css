@@ -1,11 +1,11 @@
-.aae-project-board-process-create {
+.aae-process-create {
   background-color: rgb(238, 236, 236);
   border-radius: 8px;
   padding: 8px;
   width: 400px;
 }
 
-.aae-project-board-process-create__craete-button {
+.aae-process-create__craete-button {
   font-size: 16px;
   font-weight: bold;
   border: 2px solid rgb(224, 222, 222);
@@ -16,7 +16,7 @@
   width: 100%;
 }
 
-.aae-project-board-process-create__form-close-button {
+.aae-process-create__form-close-button {
   background-color: rgb(224, 222, 222);
   padding: 0 20px;
   border: 1px solid transparent;
@@ -24,6 +24,6 @@
   font-size: 16px;
 }
 
-.aae-project-board-process-create__form-close-button:not(:disabled):hover {
+.aae-process-create__form-close-button:not(:disabled):hover {
   border: 1px solid gray;
 }

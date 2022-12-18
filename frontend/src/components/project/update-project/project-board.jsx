@@ -3,7 +3,7 @@ import { moveProcess } from "../../../api/project/process.mutations";
 import { processesByProject } from "../../../api/project/process.queries";
 import { useUpdateProjectState, useUpdateProjectDispatch } from "../../../context/update-project.context";
 import { ProcessCard } from "./project-board/process-card/process-card";
-import { ProjectBoardProcessCreate } from "./project-board/project-board-process-create/project-board-process-create";
+import { ProcessCreate } from "./project-board/process-create/process-create";
 import "./project-board/project-board.css";
 
 export function ProjectBoard({ project }) {
@@ -46,7 +46,7 @@ export function ProjectBoard({ project }) {
         <div className="aae-project-board__processes">
 
             <div className="aae-project-board__process-create">
-                <ProjectBoardProcessCreate project={project} />
+                <ProcessCreate project={project} />
             </div>
 
             {processes?.map((process, index) =>
