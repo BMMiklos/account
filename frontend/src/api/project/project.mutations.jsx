@@ -51,6 +51,39 @@ export const createEntry = async (data) => {
 
 };
 
+export const updateProject = async (id, data) => {
+
+    const response = await graphqlFetch({
+        operationName: "UpdateProject",
+        query: `mutation UpdateProject($id: ID!, $data: ProjectUpdateInput!) {
+            updateProject(id: $id, data: $data) {
+                _id
+                title
+                processes {
+                    _id
+                    title
+                    description
+                }
+                entries {
+                    _id
+                    title
+                    description
+                }
+                description
+                createdAt
+                updatedAt
+                }
+            }`,
+        variables: {
+            id,
+            data
+        }
+    });
+
+    return await response.json();
+
+};
+
 export const deleteProject = async (id) => {
 
     const response = await graphqlFetch({
