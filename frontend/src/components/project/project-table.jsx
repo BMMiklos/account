@@ -17,7 +17,7 @@ export function ProjectTable() {
         projectsBySearch(queryString).then((projectResponse) => {
             setProjects(projectResponse?.data?.projectsBySearch);
         });
-    }, [queryString]);
+    }, [queryString, projectToDelete]);
 
     useEffect(() => {
         if (projectToDelete) {
@@ -43,7 +43,9 @@ export function ProjectTable() {
                 className="aae-project-table__search-input"
                 type="text"
                 placeholder="Search"
+                value={queryString}
                 onChange={(event) => { setQueryString(event.target.value) }} />
+            <button className="aae-project-table__clear-button" onClick={() => { setQueryString("") }}>X</button>
         </div>
 
         <table className="aae-project-table">
@@ -56,15 +58,15 @@ export function ProjectTable() {
                     <th>Operations</th>
                 </tr>
             </thead>
-            <tbody class="aae-project-table__body">
+            <tbody className="aae-project-table__body">
                 {projects.map((project, index) => <tr key={index}>
                     <td>{project.title}</td>
                     <td>{project.description}</td>
                     <td>{formatDate(project.createdAt)}</td>
                     <td>{formatDate(project.updatedAt)}</td>
                     <td>
-                        <button onClick={() => { navigate(`/projects/${project._id}`); }} >Update</button>
-                        <button onClick={() => { setProjectToDelete(project) }} >Delete</button>
+                        <button className="aae-project-table__button aae-project-table__button--update" onClick={() => { navigate(`/projects/${project._id}`); }} >Update</button>
+                        <button className="aae-project-table__button aae-project-table__button--delete" onClick={() => { setProjectToDelete(project) }} >Delete</button>
                     </td>
                 </tr>)}
             </tbody>
