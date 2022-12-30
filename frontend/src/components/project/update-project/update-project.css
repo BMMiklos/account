@@ -31,6 +31,8 @@
   width: 100%;
 }
 
+.aae-update-project__update-button--save { }
+
 .aae-update-project__description-edit {
   display: block;
   border: none;

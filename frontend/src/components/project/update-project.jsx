@@ -69,9 +69,9 @@ export function UpdateProject() {
             </div>
 
             <div className="aae-update-project__button-container">
-                {!inEditMode && <button className="aae-update-project__update-button" onClick={() => { setEditMode(true) }}>Edit</button>}
-                {inEditMode && <button className="aae-update-project__update-button" onClick={() => { executeProjectUpdate() }} >Save</button>}
-                {inEditMode && <button className="aae-update-project__update-button" onClick={() => { setEditMode(false) }}>Close</button>}
+                {!inEditMode && <button className="aae-update-project__update-button aae-update-project__update-button--edit" onClick={() => { setEditMode(true) }}>Edit</button>}
+                {inEditMode && <button className="aae-update-project__update-button aae-update-project__update-button--save" onClick={() => { executeProjectUpdate() }} >Save</button>}
+                {inEditMode && <button className="aae-update-project__update-button aae-update-project__update-button--close" onClick={() => { setEditMode(false) }}>Close</button>}
             </div>
 
             <div className="aae-update-project__view-settings">
