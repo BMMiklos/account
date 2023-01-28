@@ -17,6 +17,9 @@ import entryQueries from "./project/entry/entry.queries";
 import entryMutations from "./project/entry/entry.mutations";
 import processQueries from "./project/process/process.queries";
 import processMutations from "./project/process/process.mutations";
+import { safeMutationSchemas, safeQuerySchemas } from "./safe/safe.schema";
+import { safeQueries } from "./safe/safe.queries";
+import { safeMutations } from "./safe/safe.mutations";
 
 const PaginationInputType = new GraphQLInputObjectType({
   name: "PaginationInput",
@@ -32,6 +35,7 @@ const queryType = new GraphQLObjectType({
     ...projectQuerySchemas,
     ...entryQuerySchemas,
     ...processQuerySchemas,
+    ...safeQuerySchemas
   },
 });
 
@@ -41,6 +45,7 @@ const mutationType = new GraphQLObjectType({
     ...projectMutationSchemas,
     ...entryMutationSchemas,
     ...processMutationSchemas,
+    ...safeMutationSchemas
   },
 });
 
@@ -51,6 +56,8 @@ export const projectResolvers = {
   ...entryMutations,
   ...processQueries,
   ...processMutations,
+  ...safeQueries,
+  ...safeMutations
 };
 
 export { queryType, mutationType, PaginationInputType };

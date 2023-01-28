@@ -1,6 +1,5 @@
 import { GraphQLSchema } from "graphql";
 import { mutationType, projectResolvers, queryType } from "./graphql/graphql.main";
-
 const express = require("express");
 const app = express();
 const cors = require("cors");
