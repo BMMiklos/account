@@ -1,0 +1,36 @@
+.aae-entry-item {
+    background-color: rgb(224, 222, 222);
+    border-radius: 8px;
+    padding: 8px;
+    margin-bottom: 4px;
+}
+
+.aae-entry-item__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.aae-entry-item__title {
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+.aae-entry-item__title:hover {
+    text-decoration: underline;
+}
+
+.aae-entry-item__view-button {
+    background-color: gainsboro;
+    border: 1px solid gray;
+    border-radius: 8px;
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
+.aae-entry-item__description {
+    padding: 8px;
+    border-radius: 8px;
+    background-color: white;
+}

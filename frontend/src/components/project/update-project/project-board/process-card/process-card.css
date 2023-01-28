@@ -1,0 +1,32 @@
+.aae-process-card {
+    background-color: rgb(238, 236, 236);
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    width: 400px;
+}
+
+.aae-process-card__settings {
+    display: flex;
+}
+
+.aae-process-card__title {
+    color: black;
+    margin: 4px 0;
+    flex-grow: 1;
+}
+
+.aae-process-card__delete-button {
+    align-self: center;
+    background-color: rgb(224, 222, 222);
+    padding: 2px 20px;
+    border: 0;
+    border-radius: 50px;
+    font-size: 16px;
+  }
+  
+  .aae-process-card__delete-button:not(:disabled):hover {
+    border: 1px solid rgb(224, 222, 222);
+    padding: 0px 19px;
+  }
+  

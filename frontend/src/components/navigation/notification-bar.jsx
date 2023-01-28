@@ -3,7 +3,7 @@ import "./notification-bar.css";
 
 export function NotificationBar() {
 
-    const [time, setTime] = useState('--:--');
+    const [time, setTime] = useState("");
 
     useEffect(() => {
         setInterval(() => {

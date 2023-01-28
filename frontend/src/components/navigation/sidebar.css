@@ -20,6 +20,10 @@
     text-decoration: none;
 }
 
+.aae-siderbar__link--sublink {
+    padding-left: 8px;
+}
+
 .aae-sidebar__label {
     color: white;
 }

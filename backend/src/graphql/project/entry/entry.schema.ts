@@ -1,5 +1,33 @@
-import { GraphQLBoolean, GraphQLID, GraphQLInt, GraphQLList, GraphQLNonNull } from "graphql";
-import { EntryCreateInput, EntryType, EntryUpdateInput } from "../project.type";
+import { GraphQLBoolean, GraphQLID, GraphQLInputObjectType, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString } from "graphql";
+import { ProjectType } from "../project/project.schema";
+
+export const EntryType = new GraphQLObjectType({
+    name: "Entry",
+    fields: {
+      _id: { type: GraphQLString },
+      project: { type: ProjectType },
+      title: { type: GraphQLString },
+      description: { type: GraphQLString },
+    },
+  });
+  
+const EntryCreateInput = new GraphQLInputObjectType({
+    name: "EntryCreateInput",
+    fields: {
+      project: { type: GraphQLNonNull(GraphQLID) },
+      process: { type: GraphQLID },
+      title: { type: GraphQLNonNull(GraphQLString) },
+      description: { type: GraphQLString },
+    },
+  });
+  
+  const EntryUpdateInput = new GraphQLInputObjectType({
+    name: "EntryUpdateInput",
+    fields: {
+      title: { type: GraphQLString },
+      description: { type: GraphQLString },
+    },
+  });
 
 const entryById = {
     type: EntryType,
@@ -49,7 +77,6 @@ const setEntryToProcess = {
     }
 };
 
-
 const removeEntryFromProcess = {
     type: GraphQLBoolean,
     args: {
@@ -77,12 +104,12 @@ const moveEntry = {
     }
 };
 
-export const entryQueries = {
+export const entryQuerySchemas = {
     entryById,
     entriesByProcess
 };
 
-export const entryMutations = {
+export const entryMutationSchemas = {
     createEntry,
     updateEntry,
     deleteEntry,

@@ -74,3 +74,21 @@ export const updateProcess = async (id, data) => {
     return await response.json();
 
 };
+
+export const moveProcess = async ({ project, process, index }) => {
+
+    const response = await graphqlFetch({
+        operationName: "MoveProcess",
+        query: `mutation MoveProcess($project: ID!, $process: ID!, $index: Int!) {
+            moveProcess(project: $project, process: $process, index: $index)
+            }`,
+        variables: {
+            project,
+            process,
+            index
+        }
+    });
+
+    return await response.json();
+
+};

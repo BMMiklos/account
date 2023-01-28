@@ -1,0 +1,62 @@
+.aae-entry-create-form {
+  background-color: rgb(224, 222, 222);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.aae-entry-create-form__show-form {
+  background-color: rgb(238, 236, 236);
+  font-weight: bold;
+  font-size: 12pt;
+  border-radius: 8px;
+  border: none;
+  padding: 4px;
+  display: block;
+  width: 100%;
+}
+
+.aae-entry-create-form__form {}
+
+.aae-entry-create-form__input-wrapper {
+  margin-bottom: 4px;
+}
+
+.aae-entry-create-form__label {
+  display: block;
+  font-size: 14px;
+}
+
+.aae-entry-create-form__input {
+  display: block;
+  width: 100%;
+}
+
+.aae-entry-create-form__textarea {
+  display: block;
+  resize: none;
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+}
+
+.aae-entry-create-form__button {
+  background-color: 2px solid rgb(224, 222, 222);
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.aae-entry-create-form__button:not(:disabled):hover {
+  border: 1px solid gray;
+}
+
+.aae-entry-create-form__button--save {
+  margin-right: 4px;
+}
+
+.aae-entry-create-form__button--close {}

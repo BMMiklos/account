@@ -1,16 +1,7 @@
 import {
-    GraphQLFieldConfig,
-    GraphQLID,
-    GraphQLList,
-    GraphQLNonNull,
-    GraphQLString,
-} from "graphql";
-import {
-    ProjectModel,
     ProjectProcessModel,
-    ProjectEntryModel,
+    ProjectEntryModel
 } from "../../../models/project";
-import { ProcessType, EntryType, ProjectType } from "../project.type";
 
 const entryById = async (args, res) => {
     try {

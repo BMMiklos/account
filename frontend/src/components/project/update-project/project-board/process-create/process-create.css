@@ -1,0 +1,29 @@
+.aae-process-create {
+  background-color: rgb(238, 236, 236);
+  border-radius: 8px;
+  padding: 8px;
+  width: 400px;
+}
+
+.aae-process-create__craete-button {
+  font-size: 16px;
+  font-weight: bold;
+  border: 2px solid rgb(224, 222, 222);
+  border-radius: 8px;
+  display: block;
+  padding: 10px 2px;
+  margin: 0;
+  width: 100%;
+}
+
+.aae-process-create__form-close-button {
+  background-color: rgb(224, 222, 222);
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  font-size: 16px;
+}
+
+.aae-process-create__form-close-button:not(:disabled):hover {
+  border: 1px solid gray;
+}
