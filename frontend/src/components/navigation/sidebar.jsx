@@ -19,6 +19,7 @@ export function Sidebar() {
             </>}
 
             <Link className="aae-siderbar__link" to={'/'} >Notifications</Link>
+            <Link className="aae-siderbar__link" to={'/safe'} >Safe</Link>
             <Link className="aae-siderbar__link" to={'/'} >Logout</Link>
         </div>
 

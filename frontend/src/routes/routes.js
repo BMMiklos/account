@@ -4,6 +4,7 @@ import { Login } from "../components/login/login";
 import { CreateProject } from "../components/project/create-project";
 import { ProjectTable } from "../components/project/project-table";
 import { UpdateProject } from "../components/project/update-project";
+import { SafeTable } from "../components/safe/safe-table";
 import { UpdateProjectProvider } from "../context/update-project.context";
 
 export const router = createBrowserRouter([
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
           </UpdateProjectProvider>
         ),
       },
+      {
+        path: "safe",
+        element: <SafeTable />
+      }
     ],
   },
 ]);
