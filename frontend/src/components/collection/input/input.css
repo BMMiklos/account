@@ -1,0 +1,9 @@
+.aae-input {
+    border-radius: 40px;
+    border-color: gainsboro;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 14px;
+    padding: 2px 12px;
+    margin-right: 4px;
+}

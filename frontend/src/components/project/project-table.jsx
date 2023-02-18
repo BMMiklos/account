@@ -4,6 +4,8 @@ import { deleteProject } from "../../api/project/project.mutations";
 import "./project-table.css";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../helpers/format-date";
+import { Input } from "../collection/input/input";
+import { Button } from "../collection/button/button";
 
 export function ProjectTable() {
 
@@ -39,13 +41,14 @@ export function ProjectTable() {
             <h3 className="aae-project-table__title">
                 # Projects
             </h3>
-            <input
-                className="aae-project-table__search-input"
-                type="text"
-                placeholder="Search"
+
+            <Input placeholder="Search"
                 value={queryString}
-                onChange={(event) => { setQueryString(event.target.value) }} />
-            <button className="aae-project-table__clear-button" onClick={() => { setQueryString("") }}>X</button>
+                onChange={(event) => { setQueryString(event.target.value) }}
+            />
+
+            <Button onClick={() => { setQueryString("") }}>x</Button>
+
         </div>
 
         <table className="aae-project-table">
@@ -65,8 +68,8 @@ export function ProjectTable() {
                     <td>{formatDate(project.createdAt)}</td>
                     <td>{formatDate(project.updatedAt)}</td>
                     <td>
-                        <button className="aae-project-table__button aae-project-table__button--update" onClick={() => { navigate(`/projects/${project._id}`); }} >Update</button>
-                        <button className="aae-project-table__button aae-project-table__button--delete" onClick={() => { setProjectToDelete(project) }} >Delete</button>
+                        <Button onClick={() => { navigate(`/projects/${project._id}`); }}>Update</Button>
+                        <Button onClick={() => { setProjectToDelete(project) }}>Delete</Button>
                     </td>
                 </tr>)}
             </tbody>
