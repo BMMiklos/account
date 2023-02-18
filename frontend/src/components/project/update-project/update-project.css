@@ -23,39 +23,8 @@
   margin: 0 0 4px 0;
 }
 
-.aae-update-project__title-edit {
-  display: block;
-  border: none;
-  font-size: 24px;
-  margin-bottom: 4px;
-  width: 100%;
-}
-
-.aae-update-project__update-button--save { }
-
-.aae-update-project__description-edit {
-  display: block;
-  border: none;
-  font-size: 18px;
-  width: 100%;
-}
-
-.aae-update-project__update-button {
-  padding: 2px 20px;
-  border: 0;
-  border-radius: 50px;
-  font-size: 16px;
-}
-
 .aae-update-project__view-settings {
   padding: 8px 0;
-}
-
-.aae-update-project__view-button {
-  padding: 2px 20px;
-  border: 0;
-  border-radius: 50px;
-  font-size: 16px;
 }
 
 .aae-update-project__view-button:not(:disabled):hover {
