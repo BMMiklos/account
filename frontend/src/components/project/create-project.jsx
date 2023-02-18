@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { createProject } from "../../api/project/project.mutations";
 import "./create-project.css";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../collection/button/button";
+import { Input } from "../collection/input/input";
+import { Label } from "../collection/label/label";
+import { Textarea } from "../collection/textarea/textarea";
 
 export function CreateProject() {
 
@@ -28,16 +32,21 @@ export function CreateProject() {
         <form className="create-project__form">
 
             <div className="create-project__form-input-wrapper">
-                <label className="create-project__form-label" htmlFor="project-name">Project Name</label>
-                <input className="create-project__form-input" type="text" name="project-name" id="project-name" value={title} onChange={(event) => { setTitle(event.target.value) }} />
+                <Label style={{ display: 'block' }} htmlFor="project-name">Project Name</Label>
+                <Input
+                    name="project-name"
+                    id="project-name"
+                    value={title}
+                    onChange={(event) => { setTitle(event.target.value) }}
+                />
             </div>
 
             <div className="create-project__form-input-wrapper">
-                <label className="create-project__form-label" htmlFor="project-description">Project Description</label>
-                <textarea className="create-project__form-textarea" onChange={(event) => { setDescription(event.target.value) }}>{description}</textarea>
+                <Label style={{ display: 'block' }} htmlFor="project-description">Project Description</Label>
+                <Textarea onChange={(event) => { setDescription(event.target.value) }}>{description}</Textarea>
             </div>
 
-            <input className="create-project__create-button" type="button" value="Create" onClick={() => { setSaved(true) }} />
+            <Button onClick={() => { setSaved(true) }}>Create</Button>
 
         </form>
 
