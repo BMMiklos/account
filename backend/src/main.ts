@@ -16,17 +16,14 @@ app.use(cors({
 
 const mongoose = require("mongoose");
 
-mongoose.connect('mongodb://172.17.0.1:27017/account', {
+mongoose.connect('mongodb://mongo:27017/account', {
   connectTimeoutMS: 500,
   user: "root",
   pass: "example",
   authSource: "admin"
 })
-.then((response: any) => {
-  console.log("connected");
-})
 .catch((response: any) => {
-  console.log("error");
+  console.log("MongoDB connection error!");
 });
 
 // GraphQL
