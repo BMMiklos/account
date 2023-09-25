@@ -1,0 +1,11 @@
+.aae-calendar__header {
+    display: grid;
+    grid-template-columns: repeat(7, 230px);
+    /*grid-template-rows: repeat(1, 40px);*/
+}
+
+.aae-calendar__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 230px);
+    grid-template-rows: repeat(6, 90px);
+}

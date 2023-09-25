@@ -1,0 +1,11 @@
+.aae-calendar-day {
+    
+}
+
+.aae-calendar-day--disabled {
+    color: gainsboro;
+}
+
+.aae-calendar-day:hover {
+    background-color: cyan;
+}
