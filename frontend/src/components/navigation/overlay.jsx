@@ -8,12 +8,18 @@ export function Overlay() {
 
     return <>{
         overlayState?.element && <div
-            className="aae-overlay"
-            style={overlayState?.overlayStyle}
-        >
+            className="aae-overlay">
+            <div
+                className="aae-overlay__backdrop"
+                style={overlayState?.overlayBackdropStyle}
+                onClick={() => {
+                    overlayDispatch({ type: "RESET" });
+                }}
+            >
+            </div>
             <div
                 className="aae-overlay__inner"
-                style={overlayState?.innerStyle}>
+                style={overlayState?.overlayContainerStyle}>
                 {overlayState?.element}
             </div>
         </div>

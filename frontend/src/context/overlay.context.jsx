@@ -8,8 +8,8 @@ const initialState = {
     element: null,
 
     // styles for the overlay components
-    overlayStyle: null,
-    innerStyle: null
+    overlayBackdropStyle: null,
+    overlayContainerStyle: null
 };
 
 const reducer = (state, action) => {

@@ -18,11 +18,11 @@ export function Calendar() {
                 type: "SET_ELEMENT_TO_RENDER",
                 payload: {
                     element: <CalendarContextMenu selectedDate={calendarState.selectedDate} />,
-                    overlayStyle: null,
-                    innerStyle: {
+                    overlayBackdropStyle: { display: "none" },
+                    overlayContainerStyle: {
                         position: "absolute",
                         right: 0,
-                        width: "250px",
+                        width: "350px",
                         height: "100%"
                     }
                 }
