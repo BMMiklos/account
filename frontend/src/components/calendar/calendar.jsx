@@ -1,8 +1,36 @@
 import { useEffect, useState } from "react";
 import "./calendar.css";
 import { CalendarDay } from "./calendar-day/calendar-day";
+import { useCalendarState } from "../../context/calendar.context";
+import { useOverlayDispatch } from "../../context/overlay.context";
+import { CalendarContextMenu } from "./calendar-context-menu/calendar-context-menu";
 
 export function Calendar() {
+
+    const calendarState = useCalendarState();
+    const overlayDispatch = useOverlayDispatch();
+
+    useEffect(() => {
+
+        if (calendarState.selectedDate) {
+
+            overlayDispatch({
+                type: "SET_ELEMENT_TO_RENDER",
+                payload: {
+                    element: <CalendarContextMenu selectedDate={calendarState.selectedDate} />,
+                    overlayStyle: null,
+                    innerStyle: {
+                        position: "absolute",
+                        right: 0,
+                        width: "250px",
+                        height: "100%"
+                    }
+                }
+            });
+
+        }
+
+    }, [calendarState]);
 
     const [selectedMonthTime, setSelectedMonthTime] = useState(new Date().getTime());
 
@@ -11,9 +39,6 @@ export function Calendar() {
     useEffect(() => {
 
         const selectedMonthDate = new Date(selectedMonthTime);
-
-        console.log(selectedMonthDate)
-
         const firstDate = new Date(selectedMonthDate.getTime());
         firstDate.setDate(1);
 
