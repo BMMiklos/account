@@ -26,30 +26,20 @@ const reducer = (state, action) => {
     switch (action.type) {
         case "SET_SELECTED_PROJECT":
             return { ...state, selectedProject: action.payload };
-            break;
         case "FORGET_SELECTED_PROJECT":
             return { ...state, selectedProject: null };
-            break;
         case "SET_SELECTED_PROCESS":
             return { ...state, selectedProcess: action.payload };
-            break;
         case "FORGET_SELECTED_PROCESS":
             return { ...state, selectedProcess: null };
-            break;
         case "SET_SELECTED_ENTRY":
             return { ...state, selectedEntry: action.payload };
-            break;
         case "FORGET_SELECTED_ENTRY":
             return { ...state, selectedEntry: null };
-            break;
-
         case "SET_PROCESSES_TO_RENDER":
             return { ...state, processesToRender: action.payload };
-            break;
         case "FORGET_PROCESSES_TO_RENDER":
             return { ...state, processesToRender: null };
-            break;
-
         case "SET_ENTRY_MOVE_SETTINGS":
             return {
                 ...state, entryDragAndDropSettings: {
@@ -59,8 +49,6 @@ const reducer = (state, action) => {
             };
         case "FORGET_ENTRY_MOVE_SETTINGS":
             return { ...state, entryDragAndDropSettings: initialState.entryDragAndDropSettings };
-
-
         case "SET_PROCESS_MOVE_SETTINGS":
             return {
                 ...state, processDragAndDropSettings: {
@@ -70,8 +58,6 @@ const reducer = (state, action) => {
             };
         case "FORGET_PROCESS_MOVE_SETTINGS":
             return { ...state, processDragAndDropSettings: initialState.processDragAndDropSettings };
-
-
         case "CLEAR_ALL":
             return { ...initialState }
         default:
