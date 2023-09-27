@@ -4,7 +4,7 @@ import { Login } from "../components/login/login";
 import { CreateProject } from "../components/project/create-project";
 import { ProjectTable } from "../components/project/project-table";
 import { UpdateProject } from "../components/project/update-project";
-import { SafeTable } from "../components/safe/safe-table";
+import { Safe } from "../components/safe/safe";
 import { UpdateProjectProvider } from "../context/update-project.context";
 import { Calendar } from "../components/calendar/calendar";
 import { CalendarProvider } from "../context/calendar.context";
@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "safe",
-        element: <SafeTable />
+        element: <Safe />
       },
       {
         path: "calendar",
