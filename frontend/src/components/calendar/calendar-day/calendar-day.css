@@ -2,6 +2,10 @@
     
 }
 
+.aae-calendar-day--selected {
+    background-color: cyan;
+}
+
 .aae-calendar-day--disabled {
     color: gainsboro;
 }

@@ -38,11 +38,11 @@ export function Calendar() {
 
     useEffect(() => {
 
-        const selectedMonthDate = new Date(selectedMonthTime);
-        const firstDate = new Date(selectedMonthDate.getTime());
+        const actualMonthDate = new Date(selectedMonthTime);
+        const firstDate = new Date(actualMonthDate.getTime());
         firstDate.setDate(1);
 
-        const lastDate = new Date(selectedMonthDate.getTime());
+        const lastDate = new Date(actualMonthDate.getTime());
         lastDate.setMonth(lastDate.getMonth() + 1);
         lastDate.setDate(-1);
 
@@ -134,6 +134,17 @@ export function Calendar() {
         </div>
 
         <div>
+            <button onClick={() => {
+                setSelectedMonthTime((monthTime) => monthTime - 1000 * 60 * 60 * 24 * 30);
+            }}>
+                Vissza
+            </button>
+            <button onClick={() => {
+                const nowTime = new Date().getTime();
+                setSelectedMonthTime((monthTime) => nowTime);
+            }}>
+                Ma
+            </button>
             <button onClick={() => {
                 setSelectedMonthTime((monthTime) => monthTime + 1000 * 60 * 60 * 24 * 30);
             }}>
