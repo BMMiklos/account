@@ -8,6 +8,7 @@ import { Safe } from "../components/safe/safe";
 import { UpdateProjectProvider } from "../context/update-project.context";
 import { Calendar } from "../components/calendar/calendar";
 import { CalendarProvider } from "../context/calendar.context";
+import { SafeProvider } from "../context/safe.context";
 
 export const router = createBrowserRouter([
   {
@@ -36,7 +37,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "safe",
-        element: <Safe />
+        element: (
+          <SafeProvider>
+            <Safe />
+          </SafeProvider>
+        )
       },
       {
         path: "calendar",
