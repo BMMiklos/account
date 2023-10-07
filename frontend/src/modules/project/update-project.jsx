@@ -6,7 +6,6 @@ import { useUpdateProjectState, useUpdateProjectDispatch } from "../../context/u
 import { ProcessList } from "./update-project/process-list";
 import { ProjectBoard } from "./update-project/project-board";
 import "./update-project/update-project.css";
-import { Button, Input } from "../collection/collection";
 
 export function UpdateProject() {
 
@@ -61,7 +60,7 @@ export function UpdateProject() {
                 </>}
                 {inEditMode && <>
 
-                    <Input
+                    <input
                         style={{
                             display: "block",
                             marginBottom: "4px",
@@ -72,7 +71,7 @@ export function UpdateProject() {
                             setUpdateProjectData((updateProject) => ({ ...updateProject, title: event.target.value }))
                         }} />
 
-                    <Input
+                    <input
                         style={{
                             display: "block",
                             marginBottom: "4px"
@@ -86,14 +85,14 @@ export function UpdateProject() {
             </div>
 
             <div className="aae-update-project__button-container">
-                {!inEditMode && <Button onClick={() => { setEditMode(true) }}>Edit</Button>}
-                {inEditMode && <Button style={{ marginRight: "4px" }} onClick={() => { executeProjectUpdate() }}>Save</Button>}
-                {inEditMode && <Button onClick={() => { setEditMode(false) }}>Close</Button>}
+                {!inEditMode && <button onClick={() => { setEditMode(true) }}>Edit</button>}
+                {inEditMode && <button style={{ marginRight: "4px" }} onClick={() => { executeProjectUpdate() }}>Save</button>}
+                {inEditMode && <button onClick={() => { setEditMode(false) }}>Close</button>}
             </div>
 
             <div className="aae-update-project__view-settings">
-                <Button style={{ marginRight: "4px" }} disabled={viewType == "board"} onClick={() => { setViewType("board") }}>Board</Button>
-                <Button disabled={viewType == "list"} onClick={() => { setViewType("list") }}>List</Button>
+                <button style={{ marginRight: "4px" }} disabled={viewType == "board"} onClick={() => { setViewType("board") }}>Board</button>
+                <button disabled={viewType == "list"} onClick={() => { setViewType("list") }}>List</button>
             </div>
         </div>
 
