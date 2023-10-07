@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import { createProject } from "../../api/project/project.mutations";
-import "./create-project.css";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../collection/button/button";
-import { Input } from "../collection/input/input";
-import { Label } from "../collection/label/label";
-import { Textarea } from "../collection/textarea/textarea";
+import "./create-project.css";
 
 export function CreateProject() {
 
@@ -29,11 +25,11 @@ export function CreateProject() {
 
     return <div className="create-project">
 
-        <form className="create-project__form">
+        <div className="create-project__form">
 
             <div className="create-project__form-input-wrapper">
-                <Label style={{ display: 'block' }} htmlFor="project-name">Project Name</Label>
-                <Input
+                <label style={{ display: 'block' }} htmlFor="project-name">Project Name</label>
+                <input
                     name="project-name"
                     id="project-name"
                     value={title}
@@ -42,13 +38,13 @@ export function CreateProject() {
             </div>
 
             <div className="create-project__form-input-wrapper">
-                <Label style={{ display: 'block' }} htmlFor="project-description">Project Description</Label>
-                <Textarea onChange={(event) => { setDescription(event.target.value) }}>{description}</Textarea>
+                <label style={{ display: 'block' }} htmlFor="project-description">Project Description</label>
+                <textarea onChange={(event) => { setDescription(event.target.value) }}>{description}</textarea>
             </div>
 
-            <Button onClick={() => { setSaved(true) }}>Create</Button>
+            <button onClick={() => { setSaved(true) }}>Create</button>
 
-        </form>
+        </div>
 
     </div>
 }
