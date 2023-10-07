@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { projectsBySearch } from "../../api/project/project.queries";
 import { deleteProject } from "../../api/project/project.mutations";
-import "./project-table.css";
+import "./project.css";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../helpers/format-date";
 import { Input } from "../collection/input/input";
 import { Button } from "../collection/button/button";
 
-export function ProjectTable() {
+export function Project() {
 
     const navigate = useNavigate();
 

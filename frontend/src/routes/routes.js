@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { Frame } from "../modules/layout/frame";
 import { Login } from "../modules/login/login";
 import { CreateProject } from "../modules/project/create-project";
-import { ProjectTable } from "../modules/project/project-table";
+import { Project } from "../modules/project/project";
 import { UpdateProject } from "../modules/project/update-project";
 import { Safe } from "../modules/safe/safe";
 import { UpdateProjectProvider } from "../context/update-project.context";
@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "projects",
-        element: <ProjectTable />,
+        element: <Project />,
       },
       {
         path: "projects/new",
