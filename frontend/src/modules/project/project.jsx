@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { projectsBySearch } from "../../api/project/project.queries";
 import { deleteProject } from "../../api/project/project.mutations";
-import "./project.css";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../helpers/format-date";
-import { Input } from "../collection/input/input";
-import { Button } from "../collection/button/button";
+import "./project.css";
 
 export function Project() {
 
@@ -30,50 +28,45 @@ export function Project() {
         }
     }, [projectToDelete]);
 
-    return <div style={{
-        display: 'flex',
-        width: '100%',
-        justifyContent: 'flex-start',
-        flexDirection: 'column',
-    }}>
+    return <div className="aae-project">
 
-        <div className="aae-project-table__header">
-            <h3 className="aae-project-table__title">
+        <div className="aae-project__header">
+            <h3 className="aae-project__title">
                 # Projects
             </h3>
 
-            <Input placeholder="Search"
+            <input placeholder="Search"
                 value={queryString}
                 onChange={(event) => { setQueryString(event.target.value) }}
             />
 
-            <Button onClick={() => { setQueryString("") }}>x</Button>
+            <button onClick={() => { setQueryString("") }}>x</button>
 
         </div>
 
-        <table className="aae-project-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>UpdatedAt</th>
-                    <th>CreatedAt</th>
-                    <th>Operations</th>
-                </tr>
-            </thead>
-            <tbody className="aae-project-table__body">
-                {projects.map((project, index) => <tr key={index}>
-                    <td>{project.title}</td>
-                    <td>{project.description}</td>
-                    <td>{formatDate(project.createdAt)}</td>
-                    <td>{formatDate(project.updatedAt)}</td>
-                    <td>
-                        <Button onClick={() => { navigate(`/projects/${project._id}`); }}>Update</Button>
-                        <Button onClick={() => { setProjectToDelete(project) }}>Delete</Button>
-                    </td>
-                </tr>)}
-            </tbody>
-        </table>
+        <div className="aae-project-grid">
+
+            <div className="aae-project-grid_row aae-project-grid_row--head">
+                <div>Name</div>
+                <div>Description</div>
+                <div>UpdatedAt</div>
+                <div>CreatedAt</div>
+                <div>Operations</div>
+            </div>
+
+            {projects.map((project, index) => <div key={index} className="aae-project-grid_row">
+                <div>{project.title}</div>
+                <div>{project.description}</div>
+                <div>{formatDate(project.createdAt)}</div>
+                <div>{formatDate(project.updatedAt)}</div>
+                <div>
+                    <button onClick={() => { navigate(`/projects/${project._id}`) }}>Update</button>
+                    <button onClick={() => { setProjectToDelete(project) }}>Delete</button>
+                </div>
+            </div>)}
+
+        </div>
+
 
     </div>
 }

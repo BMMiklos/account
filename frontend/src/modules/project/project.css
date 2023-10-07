@@ -1,37 +1,26 @@
-.aae-project-table__header {
+.aae-project {
+
+}
+
+.aae-project__header {
     padding: 8px;
 }
 
-.aae-project-table__title {
+.aae-project__title {
     font-size: 20px;
     margin: 8px 0;
 }
 
-/*
-.aae-project-table {
-    background-color: rgb(238, 236, 236);
-    border-collapse: collapse;
-    padding: 8px;
+.aae-project-grid {
+    display: block;
     width: 100%;
 }
 
-.aae-project-table thead tr th {
-    border-radius: 20px;
+.aae-project-grid_row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 }
 
-.aae-project-table tbody tr td {
-    background-color: rgb(224, 222, 222);
-    padding: 2px 8px;
-    margin-bottom: 10px;
+.aae-project-grid_row--head {
+    border-bottom: 1px solid gainsboro;
 }
-
-.aae-project-table tbody tr td:first-child {
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-}
-
-.aae-project-table tbody tr td:last-child {
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
-*/
