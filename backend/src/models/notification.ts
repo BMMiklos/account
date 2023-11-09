@@ -13,9 +13,12 @@ const notificationSchema = new Schema<any>({
 const NotificationModel = model("notification", notificationSchema);
 
 const notificationSettingsSchema = new Schema<any>({
-    deadline: [Date],
-    sendEmail: Boolean,
-
+    notification: { type: Schema.Types.ObjectId, ref: 'notification' },
+    notificationAt: [Number],
+    seenAt: Number,
+    sendEmail: Boolean
 });
 
 const NotificationSettingsModel = model("notificationSettings", notificationSettingsSchema);
+
+export { NotificationModel, NotificationSettingsModel };
