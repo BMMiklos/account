@@ -11,7 +11,7 @@ const NotificationSettingsType = new GraphQLObjectType({
   }
 });
 
-const NotificationType = new GraphQLObjectType({
+const Notification = new GraphQLObjectType({
   name: "Notification",
   fields: {
     _id: { type: GraphQLID },
@@ -43,7 +43,7 @@ const NotificationCreateInput = new GraphQLInputObjectType({
 });
 
 const NotificationUpdateInput = new GraphQLInputObjectType({
-  name: "NotificationCreateInput",
+  name: "NotificationUpdateInput",
   fields: {
     title: { type: GraphQLNonNull(GraphQLString) },
     description: { type: GraphQLNonNull(GraphQLString) },
