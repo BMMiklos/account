@@ -16,7 +16,7 @@ app.use(cors({
 
 const mongoose = require("mongoose");
 
-mongoose.connect('mongodb://mongo:27017/account', {
+mongoose.connect('mongodb://localhost:27017/account', {
   connectTimeoutMS: 500,
   user: "root",
   pass: "example",
