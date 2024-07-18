@@ -10,8 +10,8 @@ const EventType = new GraphQLObjectType({
     type: { type: GraphQLString },
     from: { type: GraphQLInt },
     to: { type: GraphQLInt },
-    createdAt: { type: GraphQLInt },
-    updatedAt: { type: GraphQLInt }
+    createdAt: { type: GraphQLString },
+    updatedAt: { type: GraphQLString }
   }
 });
 
@@ -60,7 +60,7 @@ const EventUpdateInput = new GraphQLInputObjectType({
 export const eventById = {
   type: EventType,
   args: {
-    id: { type: GraphQLNonNull(GraphQLString) }
+    id: { type: GraphQLNonNull(GraphQLID) }
   }
 };
 
@@ -74,19 +74,19 @@ export const eventsByFilter = {
 export const createEvent = {
   type: EventType,
   args: {
-    eventCreateInput: { type: GraphQLNonNull(EventCreateInput) }
+    data: { type: GraphQLNonNull(EventCreateInput) }
   }
 };
 
 export const updateEvent = {
   type: EventType,
   args: {
-    eventCreateInput: { type: GraphQLNonNull(EventUpdateInput) }
+    data: { type: GraphQLNonNull(EventUpdateInput) }
   }
 };
 
 export const deleteEvent = {
-  type: EventType,
+  type: GraphQLBoolean,
   args: {
     id: { type: GraphQLNonNull(GraphQLID) }
   }

@@ -1,6 +1,8 @@
+import { EventModel } from "../../models/event";
+
 const eventById = async (args, res) => {
   try {
-    return null;
+    return await EventModel.findById(args.id);
   } catch (error) {
       return new Error(error);
   }
@@ -8,7 +10,7 @@ const eventById = async (args, res) => {
 
 const eventsByFilter = async (args, res) => {
   try {
-    return [];
+    return await EventModel.find({});
   } catch (error) {
       return new Error(error);
   }
