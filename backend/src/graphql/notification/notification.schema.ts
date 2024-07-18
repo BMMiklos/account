@@ -5,7 +5,7 @@ const NotificationSettingsType = new GraphQLObjectType({
   fields: {
     _id: { type: GraphQLID },
     notification: { type: GraphQLID },
-    notificationAt: { type: GraphQLList(GraphQLInt) },
+    notificationAt: { type: GraphQLList(GraphQLString) },
     seenAt: { type: GraphQLList(GraphQLInt) },
     sendEmail: { type: GraphQLBoolean }
   }
@@ -28,7 +28,7 @@ const NotificationSettingsInput = new GraphQLInputObjectType({
   name: "NotificationSettingsInput",
   fields: {
     sendEmail: { type: GraphQLBoolean },
-    notificationsAt: { type: GraphQLInt }
+    notificationAt: { type: GraphQLList(GraphQLString) },
   }
 });
 
@@ -51,6 +51,17 @@ const NotificationUpdateInput = new GraphQLInputObjectType({
     settings: { type: NotificationSettingsInput }
   }
 });
+
+const notifications = {
+  type: GraphQLList(Notification),
+};
+
+const notificationById = {
+  type: Notification,
+  args: {
+    id: { type: GraphQLNonNull(Notification) }
+  }
+};
 
 const createNotification = {
   type: Notification,
@@ -80,4 +91,16 @@ const deleteNotification = {
   args: {
     id: { type: GraphQLNonNull(GraphQLID) },
   }
+};
+
+export const notificaitonQuerySchemas = {
+  notifications,
+  notificationById
+};
+
+export const notificationMutationSchemas = {
+  createNotification,
+  updateNotification,
+  readNotification,
+  deleteNotification
 };
