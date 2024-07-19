@@ -59,7 +59,7 @@ const notifications = {
 const notificationById = {
   type: Notification,
   args: {
-    id: { type: GraphQLNonNull(Notification) }
+    id: { type: GraphQLNonNull(GraphQLID) }
   }
 };
 
